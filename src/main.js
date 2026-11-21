@@ -1,5 +1,5 @@
 
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const minecraft = require('./minecraft');
 
@@ -24,12 +24,33 @@ function createWindow() {
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 }
 
-ipcMain.handle('minecraft:launch', async (event, options) => {
+ipcMain.handle('minecraft:launch', async (_event, options) => {
   return minecraft.launchMinecraft(options, progress => {
     if (mainWindow && !mainWindow.isDestroyed()) {
       mainWindow.webContents.send('minecraft:progress', progress);
     }
   });
+});
+
+ipcMain.handle('minecraft:get-default-directory', () => {
+  return path.join(app.getPath('appData'), '.minecraft');
+});
+
+ipcMain.handle('minecraft:select-directory', async () => {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    title: 'Выбери существующую папку Minecraft',
+    properties: ['openDirectory']
+  });
+
+  if (result.canceled || !result.filePaths[0]) {
+    return null;
+  }
+
+  return result.filePaths[0];
+});
+
+ipcMain.handle('minecraft:get-versions', async () => {
+  return minecraft.getVersions();
 });
 
 app.whenReady().then(() => {
@@ -43,5 +64,7 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
 });
