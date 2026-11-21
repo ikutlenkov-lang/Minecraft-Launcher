@@ -7,8 +7,11 @@
   <title>Minecraft Launcher</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
   <aside class="sidebar">
+
     <div class="logo">⛏ <span>BLOCK</span></div>
 
     <nav>
@@ -19,39 +22,69 @@
     </nav>
 
     <div class="sidebar-bottom">
-      <span class="status-dot"></span> Лаунчер готов
+      <span class="status-dot"></span>
+      Лаунчер готов
     </div>
+
   </aside>
 
   <main class="main">
+
     <header>
       <div>
         <p class="eyebrow">MINECRAFT JAVA EDITION</p>
         <h1 id="page-title">Главная</h1>
       </div>
-      <div class="profile">👤 <span id="profile-name">Игрок</span></div>
+
+      <div class="profile">
+        👤 <span id="profile-name">Игрок</span>
+      </div>
     </header>
 
+    <!-- ГЛАВНАЯ -->
+
     <section id="home" class="page active">
+
       <div class="hero">
+
         <div class="hero-content">
+
           <span class="tag">ТВОЁ ПРИКЛЮЧЕНИЕ НАЧИНАЕТСЯ</span>
-          <h2>Твой мир.<br><span>Твои правила.</span></h2>
-          <p>Выбирай версию и отправляйся исследовать бесконечный мир Minecraft.</p>
+
+          <h2>
+            Твой мир.<br>
+            <span>Твои правила.</span>
+          </h2>
+
+          <p>
+            Выбирай версию и отправляйся исследовать
+            бесконечный мир Minecraft.
+          </p>
 
           <div class="play-controls">
+
             <select id="home-version">
-              <option value="1.21.1">1.21.1</option>
-              <option value="1.20.1">1.20.1</option>
-              <option value="1.19.4">1.19.4</option>
-              <option value="1.18.2">1.18.2</option>
             </select>
-            <button class="play-button" id="play-button">▶ ИГРАТЬ</button>
+
+            <button class="play-button" id="play-button">
+              ▶ ИГРАТЬ
+            </button>
+
           </div>
 
-          <p id="launch-status" class="launch-status">Ожидание запуска</p>
+          <p id="launch-status" class="launch-status">
+            Ожидание запуска
+          </p>
+
+          <p class="active-directory">
+            Папка игры:
+            <span id="home-directory-label">Не выбрана</span>
+          </p>
+
         </div>
+
         <div class="hero-decoration">⛏</div>
+
       </div>
 
       <div class="section-heading">
@@ -60,10 +93,11 @@
       </div>
 
       <div class="cards">
+
         <article class="info-card">
           <div class="card-icon">📦</div>
           <h3>Версии</h3>
-          <p>Выбирай версию Minecraft.</p>
+          <p>Релизы и снапшоты Minecraft.</p>
           <button data-go="versions">Открыть →</button>
         </article>
 
@@ -77,49 +111,129 @@
         <article class="info-card">
           <div class="card-icon">⚙</div>
           <h3>Настройки</h3>
-          <p>Настрой лаунчер под себя.</p>
+          <p>Папка игры, ник и оперативная память.</p>
           <button data-go="settings">Открыть →</button>
         </article>
+
       </div>
+
     </section>
+
+    <!-- ВЕРСИИ -->
 
     <section id="versions" class="page">
+
       <h2>Выбор версии</h2>
-      <p>Выбери версию Minecraft на главной странице.</p>
-      <div class="version-list">
-        <div class="version">🟢 Minecraft 1.21.1</div>
-        <div class="version">🟢 Minecraft 1.20.1</div>
-        <div class="version">🟢 Minecraft 1.19.4</div>
-        <div class="version">🟢 Minecraft 1.18.2</div>
-      </div>
+
+      <p>
+        Список загружается из официального манифеста Mojang.
+        Нажми на версию, чтобы выбрать её.
+      </p>
+
+      <input
+        id="version-search"
+        class="version-search"
+        placeholder="Поиск версии: 26.3, 26.4-snapshot..."
+      >
+
+      <p id="versions-status" class="versions-status">
+        Загрузка списка версий...
+      </p>
+
+      <div id="version-list" class="version-list"></div>
+
     </section>
+
+    <!-- СЕРВЕРЫ -->
 
     <section id="servers" class="page">
+
       <h2>Мои серверы</h2>
-      <p>Добавляй и сохраняй адреса любимых серверов.</p>
+
+      <p>
+        Добавляй и сохраняй адреса любимых серверов.
+      </p>
+
       <div class="server-placeholder"></div>
+
     </section>
 
-    <section id="settings" class="page">
-      <h2>Настройки</h2>
-      <div class="settings-card">
-        <label for="nickname">Ник игрока</label>
-        <input id="nickname" maxlength="16" placeholder="Например, Potato555">
+    <!-- НАСТРОЙКИ -->
 
-        <label for="ram">Оперативная память</label>
+    <section id="settings" class="page">
+
+      <h2>Настройки</h2>
+
+      <div class="settings-card">
+
+        <label for="nickname">
+          Ник игрока (офлайн-профиль)
+        </label>
+
+        <input
+          id="nickname"
+          maxlength="16"
+          placeholder="Например, Potato555"
+        >
+
+        <label for="ram">
+          Оперативная память
+        </label>
+
         <select id="ram">
           <option value="2048">2 ГБ</option>
           <option value="4096" selected>4 ГБ</option>
           <option value="6144">6 ГБ</option>
           <option value="8192">8 ГБ</option>
+          <option value="12288">12 ГБ</option>
+          <option value="16384">16 ГБ</option>
         </select>
 
-        <button id="save-settings">Сохранить настройки</button>
+        <div class="directory-heading">
+
+          <label for="game-directory">
+            Папка Minecraft
+          </label>
+
+          <span>
+            Можно использовать папку другого лаунчера
+          </span>
+
+        </div>
+
+        <input
+          id="game-directory"
+          readonly
+          placeholder="Выбери существующую папку"
+        >
+
+        <div class="directory-actions">
+
+          <button id="choose-directory" type="button">
+            📁 Выбрать папку
+          </button>
+
+          <button id="use-default-directory" type="button">
+            Стандартная .minecraft
+          </button>
+
+        </div>
+
+        <p id="directory-status" class="directory-status"></p>
+
+        <button id="save-settings">
+          Сохранить настройки
+        </button>
+
         <p id="settings-status"></p>
+
       </div>
+
     </section>
+
   </main>
 
   <script src="renderer.js"></script>
+
 </body>
 </html>
