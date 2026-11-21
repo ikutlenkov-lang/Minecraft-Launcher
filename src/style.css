@@ -16,12 +16,16 @@
 body {
   display: flex;
   min-height: 100vh;
-  background: radial-gradient(ellipse at 75% 0%, #183322, transparent 35%), var(--bg);
+  background:
+    radial-gradient(ellipse at 75% 0%, #183322, transparent 35%),
+    var(--bg);
   color: var(--text);
   font-family: "Segoe UI", Arial, sans-serif;
 }
 
-button, input, select {
+button,
+input,
+select {
   font: inherit;
 }
 
@@ -66,7 +70,8 @@ nav {
   color: var(--muted);
 }
 
-.nav-item:hover, .nav-item.active {
+.nav-item:hover,
+.nav-item.active {
   color: white;
   background: #1d3027;
 }
@@ -102,7 +107,8 @@ header {
   margin-bottom: 35px;
 }
 
-.eyebrow, .tag {
+.eyebrow,
+.tag {
   color: var(--green);
   font-size: 11px;
   font-weight: 800;
@@ -113,7 +119,11 @@ h1 {
   font-size: 32px;
 }
 
-.profile, .info-card, .settings-card, .version, .server {
+.profile,
+.info-card,
+.settings-card,
+.version,
+.server {
   background: var(--panel);
   border: 1px solid #273342;
   border-radius: 14px;
@@ -127,13 +137,15 @@ h1 {
   padding: 45px;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(90deg, #08130df5, #08130db8), linear-gradient(135deg, #28613a, #101c29);
+  background:
+    linear-gradient(90deg, #08130df5, #08130db8),
+    linear-gradient(135deg, #28613a, #101c29);
 }
 
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 550px;
+  max-width: 650px;
 }
 
 .hero h2 {
@@ -166,13 +178,19 @@ h1 {
   flex-wrap: wrap;
 }
 
-select, input {
+select,
+input {
   color: white;
   background: #18232c;
   border: 1px solid #34443c;
   border-radius: 10px;
   padding: 13px 16px;
   outline: none;
+}
+
+select option {
+  background: #18232c;
+  color: white;
 }
 
 .play-button {
@@ -185,11 +203,18 @@ select, input {
 
 .play-button:disabled {
   opacity: .6;
+  cursor: wait;
 }
 
 .launch-status {
   margin-top: 15px;
   font-size: 12px;
+}
+
+.active-directory {
+  margin-top: 8px;
+  font-size: 11px;
+  overflow-wrap: anywhere;
 }
 
 .section-heading {
@@ -209,6 +234,10 @@ select, input {
   gap: 17px;
 }
 
+.info-card {
+  transition: .2s;
+}
+
 .info-card:hover {
   border-color: #477b58;
   transform: translateY(-3px);
@@ -218,13 +247,16 @@ select, input {
   margin: 12px 0;
 }
 
-.info-card p, .page > p {
+.info-card p,
+.page > p {
   color: var(--muted);
   font-size: 14px;
   line-height: 1.6;
 }
 
-.info-card button, .settings-card button, .server button, .server-placeholder > button {
+.info-card button,
+.settings-card button,
+.server button {
   margin-top: 15px;
   color: var(--green);
   background: #1d3027;
@@ -245,14 +277,63 @@ select, input {
   margin-bottom: 12px;
 }
 
-.version-list {
-  display: grid;
-  gap: 12px;
-  margin-top: 25px;
+/* ВЕРСИИ */
+
+.version-search {
+  width: 100%;
+  max-width: 520px;
+  margin-top: 20px;
 }
 
+.versions-status {
+  margin: 14px 0;
+  font-size: 12px !important;
+}
+
+.version-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.version {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  text-align: left;
+  transition: .15s;
+}
+
+.version:hover {
+  border-color: var(--green);
+  background: #1b2a22;
+}
+
+.version small {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.version-dot {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  background: var(--green);
+  border-radius: 50%;
+}
+
+.version-dot.snapshot {
+  background: #e8b84b;
+}
+
+/* НАСТРОЙКИ */
+
 .settings-card {
-  max-width: 450px;
+  max-width: 520px;
   margin-top: 25px;
   display: flex;
   flex-direction: column;
@@ -270,21 +351,51 @@ select, input {
   font-weight: 800;
 }
 
-#settings-status {
+#settings-status,
+.directory-status {
   color: var(--green);
   font-size: 13px;
+  overflow-wrap: anywhere;
 }
+
+.directory-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.directory-heading span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#game-directory {
+  font-size: 11px;
+}
+
+.directory-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.directory-actions button {
+  margin-top: 0;
+}
+
+.directory-actions button + button {
+  color: white;
+  background: #263342;
+}
+
+/* СЕРВЕРЫ */
 
 .server-placeholder {
   margin-top: 20px;
   display: grid;
   gap: 12px;
   max-width: 650px;
-}
-
-.server-list {
-  display: grid;
-  gap: 12px;
 }
 
 .server {
@@ -300,24 +411,67 @@ select, input {
 }
 
 @keyframes appear {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 850px) {
-  .sidebar { width: 190px; }
-  .main { padding: 25px; }
-  .cards { grid-template-columns: 1fr; }
+  .sidebar {
+    width: 190px;
+  }
+
+  .main {
+    padding: 25px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 600px) {
-  body { flex-direction: column; }
-  .sidebar { width: 100%; min-height: auto; }
-  .logo { margin: 5px 10px 15px; }
-  nav { flex-direction: row; flex-wrap: wrap; }
-  .sidebar-bottom { display: none; }
-  .main { padding: 18px; }
-  .hero { padding: 25px; }
-  .hero-decoration { font-size: 120px; }
-  header { gap: 10px; }
+  body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .logo {
+    margin: 5px 10px 15px;
+  }
+
+  nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .sidebar-bottom {
+    display: none;
+  }
+
+  .main {
+    padding: 18px;
+  }
+
+  .hero {
+    padding: 25px;
+  }
+
+  .hero-decoration {
+    font-size: 120px;
+  }
+
+  header {
+    gap: 10px;
+  }
 }
