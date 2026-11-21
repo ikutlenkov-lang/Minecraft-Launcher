@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minecraft Launcher</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">⛏ <span>BLOCK</span></div>
+
+    <nav>
+      <button class="nav-item active" data-page="home">🏠 Главная</button>
+      <button class="nav-item" data-page="versions">📦 Версии</button>
+      <button class="nav-item" data-page="servers">🌐 Серверы</button>
+      <button class="nav-item" data-page="settings">⚙ Настройки</button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <span class="status-dot"></span> Лаунчер готов
+    </div>
+  </aside>
+
+  <main class="main">
+    <header>
+      <div>
+        <p class="eyebrow">MINECRAFT JAVA EDITION</p>
+        <h1 id="page-title">Главная</h1>
+      </div>
+      <div class="profile">👤 <span>Игрок</span></div>
+    </header>
+
+    <section id="home" class="page active">
+      <div class="hero">
+        <div class="hero-content">
+          <span class="tag">ТВОЁ ПРИКЛЮЧЕНИЕ НАЧИНАЕТСЯ</span>
+          <h2>Твой мир.<br><span>Твои правила.</span></h2>
+          <p>Выбирай версию и отправляйся исследовать бесконечный мир Minecraft.</p>
+          <div class="play-controls">
+            <select id="home-version">
+              <option value="latest-release">Последняя версия</option>
+              <option value="1.21.1">1.21.1</option>
+              <option value="1.20.1">1.20.1</option>
+            </select>
+            <button class="play-button" id="play-button">▶ ИГРАТЬ</button>
+          </div>
+          <p id="launch-status" class="launch-status">Ожидание запуска</p>
+        </div>
+        <div class="hero-decoration">⛏</div>
+      </div>
+
+      <div class="section-heading">
+        <h2>Быстрый доступ</h2>
+        <span>ТВОЙ ЛАУНЧЕР</span>
+      </div>
+
+      <div class="cards">
+        <article class="info-card">
+          <div class="card-icon">📦</div>
+          <h3>Версии</h3>
+          <p>Выбирай версию Minecraft.</p>
+          <button data-go="versions">Открыть →</button>
+        </article>
+        <article class="info-card">
+          <div class="card-icon">🌐</div>
+          <h3>Серверы</h3>
+          <p>Твои любимые игровые серверы.</p>
+          <button data-go="servers">Открыть →</button>
+        </article>
+        <article class="info-card">
+          <div class="card-icon">⚙</div>
+          <h3>Настройки</h3>
+          <p>Настрой лаунчер под себя.</p>
+          <button data-go="settings">Открыть →</button>
+        </article>
+      </div>
+    </section>
+
+    <section id="versions" class="page">
+      <h2>Выбор версии</h2>
+      <p>Выбери версию Minecraft Java Edition на главной странице.</p>
+      <div class="version-list">
+        <div class="version">🟢 Последняя стабильная версия</div>
+        <div class="version">🟢 Minecraft 1.21.1</div>
+        <div class="version">🟢 Minecraft 1.20.1</div>
+      </div>
+    </section>
+
+    <section id="servers" class="page">
+      <h2>Серверы</h2>
+      <p>Здесь будет список твоих серверов.</p>
+      <div class="server-placeholder">🌍 Скоро здесь появится список серверов</div>
+    </section>
+
+    <section id="settings" class="page">
+      <h2>Настройки</h2>
+      <div class="settings-card">
+        <label for="nickname">Имя игрока</label>
+        <input id="nickname" maxlength="16" placeholder="Твой никнейм">
+        <label for="ram">Выделение памяти</label>
+        <select id="ram">
+          <option value="2048">2 ГБ</option>
+          <option value="4096" selected>4 ГБ</option>
+          <option value="6144">6 ГБ</option>
+          <option value="8192">8 ГБ</option>
+        </select>
+        <button id="save-settings">Сохранить настройки</button>
+        <p id="settings-status"></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
