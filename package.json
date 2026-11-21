@@ -1,0 +1,26 @@
+
+{
+  "name": "minecraft-launcher",
+  "version": "1.0.0",
+  "description": "Minecraft Java Launcher",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "build": "electron-builder"
+  },
+  "dependencies": {
+    "electron": "^39.0.0",
+    "eml-lib": "^1.0.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^26.0.0"
+  },
+  "build": {
+    "appId": "com.minecraft.launcher",
+    "productName": "Minecraft Launcher",
+    "win": {
+      "target": "nsis"
+    }
+  }
+}
