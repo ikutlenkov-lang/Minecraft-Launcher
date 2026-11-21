@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "electron": "^39.0.0",
-    "eml-lib": "^1.0.0"
+    "minecraft-launcher-core": "3.18.2"
   },
   "devDependencies": {
     "electron-builder": "^26.0.0"
