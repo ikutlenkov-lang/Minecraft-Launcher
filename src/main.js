@@ -1,10 +1,9 @@
 
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-
 const minecraft = require('./minecraft');
 
-let mainWindow = null;
+let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -25,23 +24,12 @@ function createWindow() {
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 }
 
-ipcMain.handle('minecraft:login', async () => {
-  return await minecraft.login(mainWindow);
-});
-
-ipcMain.handle('minecraft:launch', async (_event, options) => {
-  try {
-    return await minecraft.launchMinecraft(options, progress => {
-      if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.webContents.send('minecraft:progress', progress);
-      }
-    });
-  } catch (error) {
-    return {
-      success: false,
-      error: error.message
-    };
-  }
+ipcMain.handle('minecraft:launch', async (event, options) => {
+  return minecraft.launchMinecraft(options, progress => {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('minecraft:progress', progress);
+    }
+  });
 });
 
 app.whenReady().then(() => {
@@ -55,7 +43,5 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  if (process.platform !== 'darwin') app.quit();
 });
