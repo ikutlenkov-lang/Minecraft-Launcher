@@ -10,17 +10,24 @@
     "build": "electron-builder"
   },
   "dependencies": {
-    "electron": "^39.0.0",
-    "@mclc/main": "4.0.0"
+    "minecraft-launcher-core": "^3.18.2"
   },
   "devDependencies": {
-    "electron-builder": "^26.0.0"
+    "electron": "^39.0.0",
+    "electron-builder": "^26.18.0"
   },
   "build": {
     "appId": "com.minecraft.launcher",
     "productName": "Minecraft Launcher",
+    "directories": {
+      "output": "dist"
+    },
     "win": {
       "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     }
   }
 }
