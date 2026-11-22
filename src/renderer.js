@@ -429,12 +429,46 @@ const backgroundPresets = {
   purple: "linear-gradient(135deg,#170d36 0%,#54258b 52%,#172c57 100%)",
   ember: "linear-gradient(135deg,#260e12 0%,#87351f 52%,#d17a32 100%)"
 };
+
+// Атмосферные фоны по мотивам биомов Minecraft — работают офлайн.
+const minecraftBackgrounds = {
+  overworld: { name: "🌳 Верхний мир", value: "linear-gradient(180deg,#071b2dcc 0%,#0c2c36d9 42%,#173d26e8 43%,#07140feF 100%),linear-gradient(135deg,#75c9ff 0%,#b7e7ff 43%,#69a94a 44%,#315d2b 100%)" },
+  cherry: { name: "🌸 Вишнёвая роща", value: "linear-gradient(180deg,#26172bd9 0%,#38213bdb 50%,#17251ceF 100%),linear-gradient(135deg,#f5b6d1 0%,#a8d8ef 48%,#779d59 49%,#394c31 100%)" },
+  nether: { name: "🔥 Незер", value: "linear-gradient(180deg,#24090be8 0%,#54130fe8 52%,#16090df2 100%),linear-gradient(135deg,#ff7442 0%,#a51f25 55%,#260b18 100%)" },
+  end: { name: "🌌 Край", value: "linear-gradient(180deg,#090817e8 0%,#1a1230e8 58%,#090817f2 100%),radial-gradient(ellipse at 70% 30%,#9d79d8 0%,#40305f 24%,#100d20 72%)" },
+  snowy: { name: "❄️ Снежные горы", value: "linear-gradient(180deg,#101e31d9 0%,#1b2d42df 54%,#0a1421f2 100%),linear-gradient(145deg,#a9d9f5 0%,#eaf7ff 43%,#718ca4 44%,#263d56 100%)" },
+  cave: { name: "⛏️ Пещера", value: "linear-gradient(180deg,#080c12eF 0%,#17232beF 52%,#070a0eeF 100%),radial-gradient(ellipse at 55% 45%,#486b62 0%,#263b3a 28%,#090e15 75%)" }
+};
 const presetControl = document.getElementById('background-preset');
 const colorOne = document.getElementById('background-color-1');
 const colorTwo = document.getElementById('background-color-2');
 const angleControl = document.getElementById('background-angle');
 const imageControl = document.getElementById('background-image');
 const backgroundStatus = document.getElementById('background-status');
+const backgroundGallery = document.getElementById('background-gallery');
+
+function renderMinecraftBackgrounds() {
+  if (!backgroundGallery) return;
+  backgroundGallery.replaceChildren();
+  Object.entries(minecraftBackgrounds).forEach(([id, scene]) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'background-scene';
+    button.style.background = scene.value;
+    button.title = scene.name;
+    button.setAttribute('aria-label', 'Установить фон: ' + scene.name);
+    const label = document.createElement('span');
+    label.textContent = scene.name;
+    button.appendChild(label);
+    button.addEventListener('click', () => {
+      applyBackground({type:'gradient',value:scene.value});
+      backgroundStatus.textContent = scene.name + ' — фон применён и сохранён.';
+    });
+    backgroundGallery.appendChild(button);
+  });
+}
+
+renderMinecraftBackgrounds();
 
 function saveBackground(background) {
   try {
