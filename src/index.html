@@ -18,6 +18,7 @@
       <button class="nav-item active" data-page="home">🏠 Главная</button>
       <button class="nav-item" data-page="versions">📦 Версии</button>
       <button class="nav-item" data-page="servers">🌐 Серверы</button>
+      <button class="nav-item" data-page="skins">🎨 Редактор скинов</button>
       <button class="nav-item" data-page="settings">⚙ Настройки</button>
     </nav>
 
@@ -158,6 +159,26 @@
 
     </section>
 
+    <!-- РЕДАКТОР СКИНОВ -->
+    <section id="skins" class="page">
+      <div class="skin-intro">
+        <div><p class="eyebrow">PIXEL ART STUDIO</p><h2>Создай свой скин</h2><p>Рисуй по пикселям на текстуре Minecraft 64×64, импортируй PNG или скачай готовый файл.</p></div>
+        <div class="skin-preview-icon">🧑‍🎨</div>
+      </div>
+      <div class="skin-workspace">
+        <div class="skin-tools">
+          <label for="skin-color">Цвет кисти</label><input id="skin-color" type="color" value="#38d878">
+          <label for="skin-brush">Размер кисти</label><select id="skin-brush"><option value="1">1 пиксель</option><option value="2">2 × 2</option><option value="4">4 × 4</option></select>
+          <button id="skin-eraser" type="button">⌫ Ластик</button><button id="skin-pencil" class="selected" type="button">✎ Кисть</button>
+          <button id="skin-clear" type="button" class="danger">Очистить холст</button>
+          <label class="skin-upload" for="skin-import">↑ Загрузить PNG</label><input id="skin-import" type="file" accept="image/png" hidden>
+          <button id="skin-export" class="skin-export" type="button">↓ Скачать скин PNG</button>
+          <p id="skin-status" role="status">Холст 64 × 64 пикселя. Рисуй мышью или пальцем.</p>
+        </div>
+        <div class="skin-canvas-wrap"><div class="skin-canvas-heading"><strong>Текстура скина</strong><span>64 × 64</span></div><canvas id="skin-canvas" width="64" height="64" aria-label="Редактор пиксельного скина"></canvas><p>PNG сохраняется с прозрачностью. Для загрузки в профиль Minecraft используй официальный сайт игры.</p></div>
+      </div>
+    </section>
+
     <!-- НАСТРОЙКИ -->
 
     <section id="settings" class="page">
@@ -234,6 +255,7 @@
   </main>
 
   <script src="renderer.js"></script>
+  <script src="skin-editor.js"></script>
 
 </body>
 </html>
