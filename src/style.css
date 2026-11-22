@@ -495,3 +495,18 @@ select option {
 .skin-canvas-wrap>p{margin-top:13px;color:var(--muted);font-size:12px;line-height:1.5}
 @keyframes float-skin{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-7px) rotate(4deg)}}
 @media(max-width:700px){.skin-workspace{grid-template-columns:1fr}.skin-tools{display:grid;grid-template-columns:1fr 1fr}.skin-tools label{grid-column:1/-1}.skin-tools #skin-status{grid-column:1/-1}.skin-intro{padding:20px}.skin-preview-icon{font-size:42px}}
+
+/* КАСТОМНЫЕ ФОНЫ */
+body{background:var(--launcher-background,radial-gradient(ellipse at 75% 0%,#183322,transparent 35%),var(--bg));background-attachment:fixed;transition:background .35s ease}
+.background-settings{display:flex;flex-direction:column;gap:12px;margin-top:12px;padding:18px;border:1px solid #34443c;border-radius:14px;background:#101923}
+.background-settings h3{font-size:17px}.background-settings>p{font-size:12px;color:var(--muted);line-height:1.5}
+.background-settings>label:not(.background-upload){font-size:12px;color:var(--muted)}
+.background-colors{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.background-colors>div{display:flex;flex-direction:column;gap:6px}.background-colors label{font-size:11px;color:var(--muted)}
+.background-colors input{width:100%;height:42px;padding:4px;cursor:pointer}
+#background-angle{width:100%;padding:0;accent-color:var(--green)}
+.background-settings button,.background-upload{display:block;text-align:center;padding:11px 14px;border:0;border-radius:9px;background:#1d3027;color:var(--green);font-weight:700;cursor:pointer}
+.background-settings #apply-custom-background{background:var(--green);color:#07130b}
+.background-upload{background:#263342;color:#f3f6fa}
+.background-settings .background-reset{background:#263342;color:#dce5ed}
+#background-status{font-size:11px;color:var(--muted);line-height:1.5}
