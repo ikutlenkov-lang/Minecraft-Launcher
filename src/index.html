@@ -41,6 +41,11 @@
       <div class="profile">
         👤 <span id="profile-name">Игрок</span>
       </div>
+      <button id="liquid-morph-toggle" class="liquid-morph-toggle" type="button" aria-pressed="true" title="Включить или выключить жидкую анимацию">
+        <span class="liquid-icon-stage" id="liquid-icon-stage"><span class="liquid-icon-current" id="liquid-icon-current">⛏️</span></span>
+        <span class="liquid-toggle-copy"><strong>LIQUID MORPH</strong><small>Живые формы</small></span>
+        <span class="liquid-toggle-state" id="liquid-toggle-state">ON</span>
+      </button>
     </header>
 
     <!-- ГЛАВНАЯ -->
@@ -345,5 +350,13 @@
   <script src="renderer.js"></script>
   <script src="skin-editor.js"></script>
 
+
+  <svg class="liquid-filter-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <filter id="liquid-goo">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur"/>
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="goo"/>
+      <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+    </filter>
+  </svg>
 </body>
 </html>
