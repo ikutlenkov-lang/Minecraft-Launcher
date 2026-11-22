@@ -419,6 +419,104 @@ addButton.addEventListener('click', () => {
   renderServers();
 });
 
+
+/* КАСТОМНЫЙ ФОН ЛАУНЧЕРА */
+const backgroundPresets = {
+  default: "linear-gradient(135deg,#07130d 0%,#153b28 48%,#101c29 100%)",
+  aurora: "linear-gradient(135deg,#092b38 0%,#176b62 48%,#34245e 100%)",
+  ocean: "linear-gradient(135deg,#061b36 0%,#075985 52%,#102d4a 100%)",
+  sunset: "linear-gradient(135deg,#3b1747 0%,#a33d56 52%,#e58b48 100%)",
+  purple: "linear-gradient(135deg,#170d36 0%,#54258b 52%,#172c57 100%)",
+  ember: "linear-gradient(135deg,#260e12 0%,#87351f 52%,#d17a32 100%)"
+};
+const presetControl = document.getElementById('background-preset');
+const colorOne = document.getElementById('background-color-1');
+const colorTwo = document.getElementById('background-color-2');
+const angleControl = document.getElementById('background-angle');
+const imageControl = document.getElementById('background-image');
+const backgroundStatus = document.getElementById('background-status');
+
+function saveBackground(background) {
+  try {
+    localStorage.setItem('launcherBackground', JSON.stringify(background));
+    backgroundStatus.textContent = '✓ Фон сохранён!';
+  } catch (error) {
+    backgroundStatus.textContent = 'Не удалось сохранить фон. Возможно, изображение слишком большое.';
+  }
+}
+
+function applyBackground(background, persist = true) {
+  if (!background || typeof background !== 'object') return;
+  if (background.type === 'image' && typeof background.value === 'string' &&
+      background.value.startsWith('data:image/')) {
+    document.body.style.setProperty('--launcher-background',
+      'linear-gradient(#080d14aa,#080d14aa),url("' + background.value + '") center / cover fixed');
+  } else if (background.type === 'gradient' && typeof background.value === 'string' &&
+      /^(linear-gradient\(|radial-gradient\()/.test(background.value)) {
+    document.body.style.setProperty('--launcher-background', background.value);
+  } else {
+    return;
+  }
+  if (persist) saveBackground(background);
+}
+
+presetControl.addEventListener('change', () => {
+  const value = backgroundPresets[presetControl.value];
+  if (value) applyBackground({type:'gradient',value});
+  backgroundStatus.textContent = 'Готовая тема применена.';
+});
+
+document.getElementById('apply-custom-background').addEventListener('click', () => {
+  const value = 'linear-gradient(' + Number(angleControl.value) + 'deg,' +
+    colorOne.value + ' 0%,' + colorTwo.value + ' 100%)';
+  applyBackground({type:'gradient',value});
+  backgroundStatus.textContent = 'Твой градиент применён и сохранён.';
+});
+
+imageControl.addEventListener('change', () => {
+  const file = imageControl.files && imageControl.files[0];
+  if (!file) return;
+  if (!/^image\/(png|jpeg|webp)$/.test(file.type)) {
+    backgroundStatus.textContent = 'Выбери PNG, JPG или WEBP.';
+    imageControl.value = '';
+    return;
+  }
+  if (file.size > 3 * 1024 * 1024) {
+    backgroundStatus.textContent = 'Картинка должна быть не больше 3 МБ.';
+    imageControl.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    if (typeof reader.result === 'string') {
+      applyBackground({type:'image',value:reader.result});
+      backgroundStatus.textContent = 'Картинка установлена и сохранена.';
+    }
+  };
+  reader.onerror = () => {
+    backgroundStatus.textContent = 'Не удалось прочитать изображение.';
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('reset-background').addEventListener('click', () => {
+  applyBackground({type:'gradient',value:backgroundPresets.default});
+  presetControl.value = 'default';
+  colorOne.value = '#102c20';
+  colorTwo.value = '#172b45';
+  angleControl.value = '135';
+  backgroundStatus.textContent = 'Стандартный фон восстановлен.';
+});
+
+try {
+  const savedBackground = JSON.parse(localStorage.getItem('launcherBackground') || 'null');
+  if (savedBackground) applyBackground(savedBackground, false);
+  else applyBackground({type:'gradient',value:backgroundPresets.default}, false);
+} catch {
+  applyBackground({type:'gradient',value:backgroundPresets.default}, false);
+}
+
+
 // Инициализация
 
 async function init() {
