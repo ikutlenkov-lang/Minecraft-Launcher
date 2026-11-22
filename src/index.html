@@ -18,6 +18,7 @@
       <button class="nav-item active" data-page="home">🏠 Главная</button>
       <button class="nav-item" data-page="versions">📦 Версии</button>
       <button class="nav-item" data-page="servers">🌐 Серверы</button>
+      <button class="nav-item" data-page="skins">🎨 Скины</button>
       <button class="nav-item" data-page="settings">⚙ Настройки</button>
     </nav>
 
@@ -156,6 +157,26 @@
 
       <div class="server-placeholder"></div>
 
+    </section>
+
+    <!-- СКИНЫ -->
+    <section id="skins" class="page">
+      <h2>Мои скины</h2>
+      <p>Загрузи свой PNG-скин. Лаунчер сохранит его для офлайн-профиля.</p>
+      <div class="skin-card">
+        <div class="skin-preview-wrap">
+          <img id="skin-preview" alt="Предпросмотр загруженного скина" />
+          <span id="skin-empty">Здесь появится твой скин</span>
+        </div>
+        <div class="skin-controls">
+          <p class="skin-hint">Формат: PNG, размер 64×64 (или старый 64×32), до 2 МБ.</p>
+          <button id="choose-skin" type="button">🖼 Выбрать PNG-скин</button>
+          <p id="skin-file-name">Файл не выбран</p>
+          <button id="apply-skin" type="button">✓ Применить скин</button>
+          <p id="skin-status" role="status"></p>
+        </div>
+      </div>
+      <p class="skin-note"><strong>Важно:</strong> для отображения в игре нужен совместимый Fabric-мод OfflineSkins. Этот экран сохраняет PNG в поддерживаемые папки, но сам мод и Fabric Loader пока нужно установить отдельно. В одиночной игре скин виден локально; на сервере другие игроки увидят его только при соответствующей поддержке на сервере/клиентах.</p>
     </section>
 
     <!-- НАСТРОЙКИ -->
