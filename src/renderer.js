@@ -6,6 +6,7 @@ const titles = {
   home: 'Главная',
   versions: 'Версии',
   servers: 'Серверы',
+  skins: 'Редактор скинов',
   settings: 'Настройки'
 };
 
