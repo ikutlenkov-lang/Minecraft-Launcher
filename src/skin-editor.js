@@ -57,6 +57,9 @@
     link.download = 'my-minecraft-skin.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
+    const exported = (Number(localStorage.getItem('blockSkinExports') || 0) || 0) + 1;
+    localStorage.setItem('blockSkinExports', String(exported));
+    if (typeof renderPlayerProfile === 'function') renderPlayerProfile();
     status.textContent = 'PNG-файл скина скачан.';
   });
   importInput.addEventListener('change', () => {
