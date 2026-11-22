@@ -6,6 +6,7 @@ const titles = {
   home: 'Главная',
   versions: 'Версии',
   servers: 'Серверы',
+  skins: 'Скины',
   settings: 'Настройки'
 };
 
@@ -435,6 +436,7 @@ async function init() {
 
   showPage('home');
 
+  await loadSavedSkinPreview();
   await loadVersions();
 
   const savedVersion = localStorage.getItem('version');
@@ -454,3 +456,68 @@ async function init() {
 }
 
 init();
+
+
+// Скины: PNG импортируется через системный диалог Electron.
+let selectedSkinPath = null;
+const skinPreview = document.getElementById('skin-preview');
+const skinFileName = document.getElementById('skin-file-name');
+const skinStatus = document.getElementById('skin-status');
+const skinEmpty = document.getElementById('skin-empty');
+
+document.getElementById('choose-skin').addEventListener('click', async () => {
+  try {
+    const selected = await window.launcher.selectSkinFile();
+    if (!selected) return;
+    selectedSkinPath = selected;
+    skinFileName.textContent = selected.split(/[\\\\/]/).pop();
+    skinStatus.textContent = 'Файл выбран. Нажми «Применить скин».';
+  } catch (error) {
+    skinStatus.textContent = 'Ошибка: ' + error.message;
+  }
+});
+
+document.getElementById('apply-skin').addEventListener('click', async () => {
+  const username = nickname.value.trim();
+  if (!/^[A-Za-z0-9_]{3,16}$/.test(username)) {
+    skinStatus.textContent = 'Сначала укажи корректный ник в настройках.';
+    showPage('settings');
+    return;
+  }
+  if (!selectedSkinPath) {
+    skinStatus.textContent = 'Сначала выбери PNG-файл.';
+    return;
+  }
+  try {
+    skinStatus.textContent = 'Проверяем и сохраняем скин...';
+    const result = await window.launcher.applySkin({
+      username,
+      root: gameDirectory.value.trim(),
+      sourcePath: selectedSkinPath
+    });
+    skinPreview.src = result.preview;
+    skinPreview.hidden = false;
+    skinEmpty.hidden = true;
+    skinStatus.textContent = result.message + ' Размер: ' + result.width + '×' + result.height + '.';
+  } catch (error) {
+    skinStatus.textContent = 'Ошибка: ' + error.message;
+  }
+});
+
+async function loadSavedSkinPreview() {
+  const username = nickname.value.trim();
+  if (!username || !gameDirectory.value.trim()) return;
+  try {
+    const image = await window.launcher.loadCurrentSkin({
+      username,
+      root: gameDirectory.value.trim()
+    });
+    if (image) {
+      skinPreview.src = image;
+      skinPreview.hidden = false;
+      skinEmpty.hidden = true;
+    }
+  } catch (error) {
+    console.warn('Не удалось загрузить предпросмотр скина:', error);
+  }
+}
