@@ -606,6 +606,11 @@ const AVATAR_PRESETS = [
   {id:'dragon',emoji:'🐉',label:'Дракон',bg:'linear-gradient(145deg,#7af0a0,#145d49)'}
 ];
 const defaultAvatar = 'preset:creeper';
+const profileStatusInput = document.getElementById('profile-status-input');
+const profileBioInput = document.getElementById('profile-bio-input');
+const profileInfoStatus = document.getElementById('profile-info-status');
+if (profileStatusInput) profileStatusInput.value = localStorage.getItem('blockPlayerStatus') || 'Исследую миры Minecraft';
+if (profileBioInput) profileBioInput.value = localStorage.getItem('blockPlayerBio') || '';
 function getProfileStats(){
   try { const value=JSON.parse(localStorage.getItem('blockProfileStats')||'{}'); return value&&typeof value==='object'?value:{}; }
   catch { return {}; }
@@ -638,6 +643,8 @@ function renderPlayerProfile(){
   document.getElementById('stat-skins').textContent=skins;
   document.getElementById('stat-servers').textContent=serverCount;
   document.getElementById('profile-rank').textContent=launches>=25?'МАСТЕР':launches>=5?'ИССЛЕДОВАТЕЛЬ':'НОВИЧОК';
+  const statusTag = document.getElementById('profile-status-tag');
+  if (statusTag) statusTag.textContent = '🟢 ' + (localStorage.getItem('blockPlayerStatus') || 'Исследую миры Minecraft');
   const achievements=[
     {id:'profile',title:'Первый образ',desc:'Настрой ник или аватар профиля',ok:!!localStorage.getItem('nickname')||currentAvatar()!==defaultAvatar,icon:'🧑‍🎨'},
     {id:'launch1',title:'Первый запуск',desc:'Запусти Minecraft через лаунчер',ok:launches>=1,icon:'⛏️'},
@@ -695,3 +702,26 @@ saveSettings=function(){originalSaveSettings();renderPlayerProfile();};
 const originalRenderServers=renderServers;
 renderServers=function(){originalRenderServers();renderPlayerProfile();};
 renderPlayerProfile();
+
+
+// Редактирование информации профиля и копирование карточки
+document.getElementById('profile-save-info')?.addEventListener('click', () => {
+  const status = (profileStatusInput?.value || '').trim().slice(0, 40);
+  const bio = (profileBioInput?.value || '').trim().slice(0, 180);
+  localStorage.setItem('blockPlayerStatus', status || 'Исследую миры Minecraft');
+  localStorage.setItem('blockPlayerBio', bio);
+  if (profileInfoStatus) profileInfoStatus.textContent = '✓ Информация профиля сохранена!';
+  renderPlayerProfile();
+});
+document.getElementById('profile-copy-info')?.addEventListener('click', async () => {
+  const name = (nickname.value || '').trim() || 'Игрок';
+  const status = localStorage.getItem('blockPlayerStatus') || 'Исследую миры Minecraft';
+  const bio = localStorage.getItem('blockPlayerBio') || 'Пока ничего не рассказал о себе.';
+  const text = 'BLOCK LAUNCHER — ПРОФИЛЬ ИГРОКА\\nНик: ' + name + '\\nСтатус: ' + status + '\\nО себе: ' + bio + '\\nЗапусков Minecraft: ' + (Number(getProfileStats().launches) || 0) + '\\nСкинов создано: ' + getSkinExports();
+  try {
+    await navigator.clipboard.writeText(text);
+    if (profileInfoStatus) profileInfoStatus.textContent = '✓ Карточка профиля скопирована!';
+  } catch {
+    if (profileInfoStatus) profileInfoStatus.textContent = 'Не удалось скопировать. Проверь разрешение буфера обмена.';
+  }
+});
