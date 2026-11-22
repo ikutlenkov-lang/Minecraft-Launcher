@@ -242,6 +242,32 @@
 
         <p id="directory-status" class="directory-status"></p>
 
+
+        <div class="background-settings">
+          <h3>Фон лаунчера</h3>
+          <p>Выбери готовый градиент, создай свой или загрузи изображение.</p>
+          <label for="background-preset">Готовые темы</label>
+          <select id="background-preset">
+            <option value="default">🌌 Ночной зелёный</option>
+            <option value="aurora">🌈 Северное сияние</option>
+            <option value="ocean">🌊 Океан</option>
+            <option value="sunset">🌇 Закат</option>
+            <option value="purple">💜 Неоновый фиолетовый</option>
+            <option value="ember">🔥 Огненный</option>
+          </select>
+          <div class="background-colors">
+            <div><label for="background-color-1">Первый цвет</label><input id="background-color-1" type="color" value="#102c20"></div>
+            <div><label for="background-color-2">Второй цвет</label><input id="background-color-2" type="color" value="#172b45"></div>
+          </div>
+          <label for="background-angle">Направление градиента</label>
+          <input id="background-angle" type="range" min="0" max="360" value="135">
+          <button id="apply-custom-background" type="button">Применить мой градиент</button>
+          <label class="background-upload" for="background-image">🖼 Загрузить свою картинку</label>
+          <input id="background-image" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+          <button id="reset-background" type="button" class="background-reset">Вернуть стандартный фон</button>
+          <p id="background-status" role="status">Фон сохраняется автоматически на этом компьютере.</p>
+        </div>
+
         <button id="save-settings">
           Сохранить настройки
         </button>
