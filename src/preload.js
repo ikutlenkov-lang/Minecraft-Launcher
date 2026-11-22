@@ -15,6 +15,12 @@ contextBridge.exposeInMainWorld('launcher', {
   selectDirectory: () =>
     ipcRenderer.invoke('minecraft:select-directory'),
 
+  selectSkinFile: () => ipcRenderer.invoke('skins:select-file'),
+
+  applySkin: options => ipcRenderer.invoke('skins:apply', options),
+
+  loadCurrentSkin: options => ipcRenderer.invoke('skins:load-current', options),
+
   onProgress: callback => {
     const listener = (_event, data) => callback(data);
 
