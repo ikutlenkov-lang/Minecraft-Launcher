@@ -168,7 +168,7 @@
           <p class="eyebrow">PLAYER CARD</p>
           <h2 id="profile-heading">Твой профиль</h2>
           <p>Твоя личная карточка игрока в BLOCK Launcher.</p>
-          <div class="profile-tags"><span id="profile-rank">НОВИЧОК</span><span id="profile-since">Профиль на этом устройстве</span></div>
+          <div class="profile-tags"><span id="profile-rank">НОВИЧОК</span><span id="profile-since">Профиль на этом устройстве</span><span id="profile-status-tag">🟢 В игре</span></div>
         </div>
       </div>
       <div class="profile-layout">
@@ -180,6 +180,16 @@
           <div id="avatar-presets" class="avatar-presets"></div>
           <button id="avatar-reset" class="profile-secondary" type="button">Вернуть стандартную</button>
           <p id="avatar-status" class="profile-hint" role="status">Аватар сохраняется только на этом компьютере.</p>
+        </div>
+        <div class="profile-panel">
+          <h3>Обо мне</h3>
+          <label class="profile-hint" for="profile-status-input">Статус игрока</label>
+          <input id="profile-status-input" maxlength="40" placeholder="Например: Строю свой мир..." />
+          <label class="profile-hint" for="profile-bio-input">Описание профиля</label>
+          <textarea id="profile-bio-input" maxlength="180" rows="3" placeholder="Расскажи немного о себе..."></textarea>
+          <button id="profile-save-info" class="profile-secondary" type="button">Сохранить профиль</button>
+          <button id="profile-copy-info" class="profile-secondary" type="button">Скопировать карточку</button>
+          <p id="profile-info-status" class="profile-hint" role="status">Информация хранится на этом компьютере.</p>
         </div>
         <div class="profile-panel">
           <h3>Статистика</h3>
