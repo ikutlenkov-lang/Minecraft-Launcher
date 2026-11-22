@@ -675,7 +675,51 @@ function renderAvatarPresets(){
     container.appendChild(button);
   });
 }
+
 renderAvatarPresets();
+
+// Конструктор собственного аватара и описание профиля.
+const avatarEmoji=document.getElementById('avatar-emoji');
+const avatarBg=document.getElementById('avatar-bg');
+const avatarAccent=document.getElementById('avatar-accent');
+const avatarPreview=document.getElementById('avatar-maker-preview');
+function updateAvatarMakerPreview(){
+  if(!avatarPreview)return;
+  avatarPreview.textContent=avatarEmoji.value;
+  avatarPreview.style.background='linear-gradient(145deg,'+avatarAccent.value+','+avatarBg.value+')';
+}
+[avatarEmoji,avatarBg,avatarAccent].forEach(control=>control.addEventListener('input',updateAvatarMakerPreview));
+updateAvatarMakerPreview();
+function createCustomAvatar(){
+  const emoji=avatarEmoji.value;
+  const bg=avatarBg.value;
+  const accent=avatarAccent.value;
+  const svg='<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+accent+'"/><stop offset="1" stop-color="'+bg+'"/></linearGradient></defs><rect width="512" height="512" rx="110" fill="url(#g)"/><path d="M0 390 Q130 300 260 410 T512 370 V512 H0Z" fill="#07130d" opacity=".22"/><text x="256" y="340" font-size="270" text-anchor="middle">'+emoji+'</text><rect x="12" y="12" width="488" height="488" rx="100" fill="none" stroke="#ffffff" stroke-opacity=".45" stroke-width="12"/></svg>';
+  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+}
+document.getElementById('create-avatar').addEventListener('click',()=>{
+  localStorage.setItem('blockPlayerAvatar',createCustomAvatar());
+  document.getElementById('avatar-status').textContent='✨ Твой аватар создан и установлен!';
+  renderPlayerProfile();
+});
+document.getElementById('download-avatar').addEventListener('click',()=>{
+  const source=createCustomAvatar();
+  const image=new Image();
+  image.onload=()=>{
+    const canvas=document.createElement('canvas');canvas.width=512;canvas.height=512;
+    canvas.getContext('2d').drawImage(image,0,0,512,512);
+    const link=document.createElement('a');link.download='block-player-avatar.png';link.href=canvas.toDataURL('image/png');link.click();
+    document.getElementById('avatar-status').textContent='PNG-аватар скачан.';
+  };
+  image.src=source;
+});
+const bioInput=document.getElementById('profile-bio');
+bioInput.value=localStorage.getItem('blockPlayerBio')||'';
+document.getElementById('save-profile-bio').addEventListener('click',()=>{
+  localStorage.setItem('blockPlayerBio',bioInput.value.trim());
+  document.getElementById('avatar-status').textContent='Описание профиля сохранено.';
+});
+
 document.getElementById('profile-avatar-file').addEventListener('change',()=>{
   const file=document.getElementById('profile-avatar-file').files?.[0];
   if(!file)return;
