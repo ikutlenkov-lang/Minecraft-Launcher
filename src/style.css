@@ -681,3 +681,10 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 .achievement small{margin-top:4px;color:var(--muted);font-size:10px;line-height:1.4}
 .achievement-state{margin-left:auto;color:var(--green);font-weight:900}
 @media(max-width:700px){.profile-layout{grid-template-columns:1fr}.achievement-list{grid-template-columns:1fr}.profile-hero{padding:20px;gap:16px}.profile-avatar-frame{width:86px;height:86px;flex-basis:86px;border-radius:22px}.profile-avatar-frame img{border-radius:17px}}
+
+
+/* PROFILE BIO AND STATUS */
+#profile-status-input,#profile-bio-input{width:100%;margin:5px 0 10px;background:#111d28;border:1px solid #ffffff1c;border-radius:10px;color:#f3f6fa;padding:12px;font:inherit;resize:vertical}
+#profile-status-input:focus,#profile-bio-input:focus{outline:2px solid #63f59a55;border-color:#63f59a}
+.profile-panel .profile-hint{display:block}
+#profile-status-tag{max-width:100%;overflow-wrap:anywhere}
