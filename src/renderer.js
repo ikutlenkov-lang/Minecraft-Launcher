@@ -769,3 +769,73 @@ document.getElementById('profile-copy-info')?.addEventListener('click', async ()
     if (profileInfoStatus) profileInfoStatus.textContent = 'Не удалось скопировать. Проверь разрешение буфера обмена.';
   }
 });
+
+
+// LIQUID MORPH — переключение символов с эффектом жидкого стекла.
+(() => {
+  const toggle = document.getElementById('liquid-morph-toggle');
+  const stage = document.getElementById('liquid-icon-stage');
+  const state = document.getElementById('liquid-toggle-state');
+  if (!toggle || !stage) return;
+
+  const symbols = ['⛏️','🟩','💎','🧱','🌳','🔥','🌀','🪨','🟪','⚒️'];
+  let index = 0;
+  let enabled = localStorage.getItem('blockLiquidMorph') !== 'off';
+  let busy = false;
+
+  function applyState() {
+    toggle.classList.toggle('is-off', !enabled);
+    toggle.setAttribute('aria-pressed', String(enabled));
+    if (state) state.textContent = enabled ? 'ON' : 'OFF';
+    document.body.classList.toggle('liquid-disabled', !enabled);
+  }
+
+  function morph(nextSymbol) {
+    if (!enabled || busy) return;
+    busy = true;
+    const oldIcon = stage.querySelector('.liquid-icon-current');
+    const nextIcon = document.createElement('span');
+    nextIcon.className = 'liquid-icon-next';
+    nextIcon.textContent = nextSymbol;
+    if (oldIcon) oldIcon.classList.add('liquid-out');
+    stage.appendChild(nextIcon);
+    window.setTimeout(() => {
+      if (oldIcon) oldIcon.remove();
+      nextIcon.className = 'liquid-icon-current';
+      nextIcon.id = 'liquid-icon-current';
+      busy = false;
+    }, 840);
+  }
+
+  function next() {
+    index = (index + 1) % symbols.length;
+    morph(symbols[index]);
+  }
+
+  toggle.addEventListener('click', () => {
+    enabled = !enabled;
+    localStorage.setItem('blockLiquidMorph', enabled ? 'on' : 'off');
+    applyState();
+    if (enabled) next();
+  });
+
+  // Нажатие на логотип или смена раздела тоже запускает превращение.
+  document.querySelector('.logo')?.addEventListener('click', next);
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      if (!enabled) return;
+      next();
+      document.body.classList.remove('liquid-transition');
+      void document.body.offsetWidth;
+      document.body.classList.add('liquid-transition');
+      window.setTimeout(() => document.body.classList.remove('liquid-transition'), 650);
+    });
+  });
+
+  // Небольшая самостоятельная трансформация раз в несколько секунд.
+  let autoMorph = window.setInterval(() => {
+    if (enabled && !document.hidden) next();
+  }, 5200);
+
+  applyState();
+})();
