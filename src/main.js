@@ -29,7 +29,7 @@ ipcMain.handle('minecraft:launch', async (_event, options) => {
     if (mainWindow && !mainWindow.isDestroyed()) {
       mainWindow.webContents.send('minecraft:progress', progress);
     }
-  });
+  }, app.getPath('userData'));
 });
 
 ipcMain.handle('minecraft:get-default-directory', () => {
@@ -46,7 +46,9 @@ ipcMain.handle('minecraft:select-directory', async () => {
   return result.filePaths[0];
 });
 
-ipcMain.handle('minecraft:get-versions', async () => minecraft.getVersions());
+ipcMain.handle('minecraft:get-versions', async (_event, forceRefresh = false) =>
+  minecraft.getVersions(app.getPath('userData'), { forceRefresh })
+);
 
 // WORLD BACKUPS — копируются только выбранные миры из saves, а не вся .minecraft.
 function safeWorldName(name) {
