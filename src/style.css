@@ -846,3 +846,15 @@ body::before,body::after{z-index:0;pointer-events:none}
 .utility-card button,.utility-action{display:inline-flex;align-items:center;justify-content:center;margin-top:auto;padding:11px 14px;border-radius:9px;background:#1d422d;color:var(--green);font-weight:800;text-decoration:none}
 .utility-card small{color:var(--muted);font-size:11px;line-height:1.4}
 @media(max-width:600px){.utilities-hero{padding:20px}.utilities-hero-icon{font-size:42px}}
+
+
+/* LIQUID MORPH FIX — анимация не зависит от SVG-фильтра */
+.liquid-icon-stage{filter:none!important;display:grid;place-items:center;isolation:isolate}
+.liquid-icon-current,.liquid-icon-next{position:absolute;inset:0;margin:auto}
+.liquid-icon-current.liquid-out{animation:liquid-out .72s cubic-bezier(.7,0,.2,1) forwards}
+.liquid-icon-next{animation:liquid-in .82s cubic-bezier(.18,.82,.18,1) both}
+.liquid-disabled .liquid-icon-stage{filter:none!important}
+.utility-command-actions{display:flex;flex-wrap:wrap;gap:8px;width:100%;margin-top:auto}
+.utility-command-actions button{margin-top:0;flex:1 1 120px}
+.utility-command-card code{font-size:12px;min-height:44px;display:flex;align-items:center}
+.utility-command-card small{min-height:30px}
