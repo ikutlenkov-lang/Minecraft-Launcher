@@ -18,7 +18,8 @@
       <button class="nav-item active" data-page="home">🏠 Главная</button>
       <button class="nav-item" data-page="versions">📦 Версии</button>
       <button class="nav-item" data-page="servers">🌐 Серверы</button>
-      <button class="nav-item" data-page="skins">🎨 Редактор скинов</button>\n      <button class="nav-item" data-page="backups">🛡️ Копии миров</button>
+      <button class="nav-item" data-page="skins">🎨 Редактор скинов</button>
+      <button class="nav-item" data-page="backups">🛡️ Копии миров</button>
       <button class="nav-item" data-page="utilities">🧰 Утилиты</button>
       <button class="nav-item" data-page="settings">⚙ Настройки</button>
     </nav>
@@ -246,14 +247,17 @@
           <small>Откроется официальный адрес энциклопедии сообщества.</small>
         </article>
 
-        <article class="utility-card">
+        <article class="utility-card utility-command-card">
           <div class="utility-icon">⌨️</div>
-          <p class="eyebrow">БЫСТРАЯ ПОДСКАЗКА</p>
-          <h3>Полезная команда</h3>
-          <p>Скопируй команду телепортации к случайному игроку (если она разрешена на сервере).</p>
-          <code id="utility-command">/tp @s @r</code>
-          <button id="copy-utility-command" type="button">⧉ Скопировать команду</button>
-          <small id="utility-command-status" role="status">Команда Minecraft</small>
+          <p class="eyebrow">КОМАНДЫ MINECRAFT</p>
+          <h3 id="utility-command-title">Случайная полезная команда</h3>
+          <p id="utility-command-description">Подсказка для твоего мира. Нажми «Другая команда», чтобы получить новую.</p>
+          <code id="utility-command">/time set day</code>
+          <div class="utility-command-actions">
+            <button id="randomize-utility-command" type="button">↻ Другая команда</button>
+            <button id="copy-utility-command" type="button">⧉ Копировать</button>
+          </div>
+          <small id="utility-command-status" role="status">Команды могут требовать включённых читов или прав оператора.</small>
         </article>
       </div>
     </section>
@@ -362,7 +366,8 @@
   </main>
 
   <script src="renderer.js"></script>
-  <script src="skin-editor.js"></script>\n  <script src="world-backups.js"></script>
+  <script src="skin-editor.js"></script>
+  <script src="world-backups.js"></script>
 
 
   <svg class="liquid-filter-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
