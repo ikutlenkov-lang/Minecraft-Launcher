@@ -733,3 +733,64 @@ body.liquid-transition .page.active{animation:liquid-page-in .55s cubic-bezier(.
 body.liquid-transition .hero-decoration{transform:rotate(-13deg) scale(1.13, .86);filter:drop-shadow(0 0 22px #55ff9a)}
 @media(max-width:760px){.liquid-morph-toggle{padding:7px 9px;gap:6px}.liquid-icon-stage{width:34px;height:34px}.liquid-icon-current,.liquid-icon-next{width:32px;height:32px;font-size:23px}.liquid-toggle-copy strong{font-size:9px}.liquid-toggle-copy small{font-size:10px}}
 @media(prefers-reduced-motion:reduce){.liquid-icon-current.liquid-out,.liquid-icon-next{animation-duration:.01ms}.page.active{animation:none!important}}
+
+
+/* BACKGROUND BLEND — фон проходит сквозь навигацию и интерфейс */
+:root{
+  --glass-surface:rgba(12,20,28,.48);
+  --glass-surface-strong:rgba(12,20,28,.62);
+  --glass-edge:rgba(190,230,205,.16);
+}
+body{
+  background-color:#0b0e14;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+}
+body::before,body::after{z-index:0;pointer-events:none}
+.sidebar,.main{position:relative;z-index:1}
+.sidebar{
+  background:
+    linear-gradient(90deg,rgba(7,13,18,.62) 0%,rgba(8,15,21,.43) 72%,rgba(8,15,21,.20) 100%);
+  border-right:1px solid rgba(190,230,205,.13);
+  box-shadow:14px 0 48px rgba(0,0,0,.12);
+  backdrop-filter:blur(26px) saturate(135%);
+  -webkit-backdrop-filter:blur(26px) saturate(135%);
+}
+.main{
+  background:linear-gradient(110deg,rgba(8,14,20,.10),rgba(8,14,20,.035) 45%,transparent 78%);
+}
+.nav-item{background:rgba(12,20,28,.12)}
+.nav-item:hover{background:rgba(35,73,51,.48)}
+.nav-item.active{
+  background:linear-gradient(105deg,rgba(35,91,57,.66),rgba(24,49,39,.30));
+  border-color:rgba(99,245,154,.24);
+}
+.profile,.info-card,.settings-card,.version,.server,.skin-tools,.skin-canvas-wrap,.profile-panel{
+  background:linear-gradient(145deg,rgba(25,37,50,.58),rgba(13,21,31,.48));
+  border-color:var(--glass-edge);
+  backdrop-filter:blur(22px) saturate(125%);
+  -webkit-backdrop-filter:blur(22px) saturate(125%);
+}
+.background-settings{
+  background:linear-gradient(145deg,rgba(17,30,41,.58),rgba(13,21,30,.48));
+  border-color:var(--glass-edge);
+  backdrop-filter:blur(20px) saturate(125%);
+  -webkit-backdrop-filter:blur(20px) saturate(125%);
+}
+.hero,.skin-intro,.profile-hero{
+  background:
+    radial-gradient(ellipse at 82% 18%,rgba(84,233,149,.20),transparent 42%),
+    linear-gradient(112deg,rgba(7,19,13,.72),rgba(12,33,24,.58) 48%,rgba(16,32,44,.62));
+  backdrop-filter:blur(18px) saturate(120%);
+  -webkit-backdrop-filter:blur(18px) saturate(120%);
+}
+@media(max-width:600px){
+  .sidebar{
+    background:linear-gradient(180deg,rgba(7,13,18,.62),rgba(8,15,21,.34));
+    border-right:0;
+    border-bottom:1px solid rgba(190,230,205,.13);
+  }
+  .main{background:transparent}
+}
