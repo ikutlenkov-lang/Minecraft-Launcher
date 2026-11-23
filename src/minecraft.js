@@ -96,9 +96,30 @@ async function getVersions(cacheDirectory, options = {}) {
     const fallback = cachedVersions || diskCache?.versions || null;
 
     if (!forceRefresh && cachedVersions) return cachedVersions;
-    if (!forceRefresh && diskCache &&
-        Date.now() - diskCache.fetchedAt < VERSION_CACHE_TTL) {
+    if (!forceRefresh && diskCache) {
       cachedVersions = diskCache.versions;
+      if (Date.now() - diskCache.fetchedAt < VERSION_CACHE_TTL) {
+        return cachedVersions;
+      }
+
+      // Устаревший кэш показываем сразу, а Mojang обновляем в фоне.
+      // Поэтому даже после долгого перерыва список не пропадает и не заставляет ждать сеть.
+      const backgroundRefresh = (async () => {
+        try {
+          const manifest = await requestVersionManifest();
+          const freshVersions = normalizeVersions(manifest);
+          if (!freshVersions.length) throw new Error('Список версий Mojang пуст.');
+          cachedVersions = freshVersions;
+          await writeVersionsCache(cacheDirectory, freshVersions);
+          return freshVersions;
+        } catch (error) {
+          console.warn('Фоновое обновление списка версий не удалось:', error.message);
+          return cachedVersions;
+        }
+      })();
+      versionsRequest = backgroundRefresh.finally(() => {
+        versionsRequest = null;
+      });
       return cachedVersions;
     }
 
