@@ -858,3 +858,51 @@ body::before,body::after{z-index:0;pointer-events:none}
 .utility-command-actions button{margin-top:0;flex:1 1 120px}
 .utility-command-card code{font-size:12px;min-height:44px;display:flex;align-items:center}
 .utility-command-card small{min-height:30px}
+
+
+/* SERVER FORM — яркая фирменная кнопка добавления */
+.server-placeholder{max-width:760px;gap:18px}
+.server-form{
+  display:grid;grid-template-columns:minmax(150px,.8fr) minmax(190px,1.2fr) auto;
+  align-items:center;gap:12px;padding:18px;
+  border:1px solid rgba(105,235,151,.22);border-radius:18px;
+  background:linear-gradient(145deg,rgba(25,48,37,.58),rgba(13,23,32,.72));
+  box-shadow:0 16px 38px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.06);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)
+}
+.server-form .server-input{width:100%;min-width:0;padding:14px 15px;border-radius:11px;background:rgba(7,15,20,.72);border:1px solid rgba(160,190,174,.18);color:#f3fff6}
+.server-form .server-input::placeholder{color:#8fa397}
+.server-form .server-input:focus{border-color:#67f39b;box-shadow:0 0 0 3px rgba(69,228,119,.14)}
+.server-add-button{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:48px;padding:0 19px;border:1px solid rgba(190,255,211,.38);
+  border-radius:12px;background:linear-gradient(115deg,#83ffb2 0%,#39d982 52%,#20b86b 100%);
+  color:#062414;font-weight:900;letter-spacing:.1px;white-space:nowrap;
+  box-shadow:0 8px 24px rgba(47,220,119,.24),inset 0 1px rgba(255,255,255,.7);
+  transition:transform .2s ease,filter .2s ease,box-shadow .2s ease
+}
+.server-add-button span{font-size:21px;line-height:1}
+.server-add-button:hover{transform:translateY(-2px);filter:brightness(1.07);box-shadow:0 12px 30px rgba(47,220,119,.34),inset 0 1px rgba(255,255,255,.75)}
+.server-add-button:active{transform:translateY(0) scale(.98)}
+.server-add-button:focus-visible{outline:2px solid #b5ffce;outline-offset:4px}
+.server-list{display:grid;gap:12px}
+.server-action{margin:0!important;padding:9px 13px;border-radius:9px;font-weight:750;transition:transform .18s,background .18s}
+.server-copy-button{color:#baffce!important;background:rgba(48,155,91,.2)!important;border:1px solid rgba(105,235,151,.2)}
+.server-remove-button{color:#ffb2b2!important;background:rgba(190,61,72,.13)!important;border:1px solid rgba(255,125,125,.16)}
+.server-action:hover{transform:translateY(-1px)}
+.versions-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:14px 0}
+.versions-toolbar .versions-status{margin:0;flex:1;min-width:240px}
+.refresh-versions-button{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:10px 15px;border:1px solid rgba(105,235,151,.28);border-radius:10px;
+  color:#caffd9;background:linear-gradient(135deg,rgba(48,133,79,.34),rgba(23,57,42,.72));
+  font-weight:800;transition:transform .2s,border-color .2s,background .2s
+}
+.refresh-versions-button:hover{transform:translateY(-2px);border-color:#72f5a1;background:linear-gradient(135deg,rgba(56,166,94,.45),rgba(26,73,49,.82))}
+.refresh-versions-button:disabled{opacity:.65;cursor:wait;transform:none}
+@media(max-width:760px){
+  .server-form{grid-template-columns:1fr}
+  .server-add-button{width:100%}
+  .versions-toolbar{align-items:stretch}
+  .refresh-versions-button{width:100%}
+}
