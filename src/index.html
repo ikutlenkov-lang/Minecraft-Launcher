@@ -18,7 +18,6 @@
       <button class="nav-item active" data-page="home">🏠 Главная</button>
       <button class="nav-item" data-page="versions">📦 Версии</button>
       <button class="nav-item" data-page="servers">🌐 Серверы</button>
-      <button class="nav-item" data-page="profile">👤 Профиль</button>
       <button class="nav-item" data-page="skins">🎨 Редактор скинов</button>
       <button class="nav-item" data-page="settings">⚙ Настройки</button>
     </nav>
@@ -163,65 +162,6 @@
 
       <div class="server-placeholder"></div>
 
-    </section>
-
-    <!-- ПРОФИЛЬ ИГРОКА -->
-    <section id="profile" class="page">
-      <div class="profile-hero">
-        <div class="profile-avatar-frame"><img id="profile-avatar-large" alt="Аватар игрока" src=""></div>
-        <div class="profile-identity">
-          <p class="eyebrow">PLAYER CARD</p>
-          <h2 id="profile-heading">Твой профиль</h2>
-          <p>Твоя личная карточка игрока в BLOCK Launcher.</p>
-          <div class="profile-tags"><span id="profile-rank">НОВИЧОК</span><span id="profile-since">Профиль на этом устройстве</span><span id="profile-status-tag">🟢 В игре</span></div>
-        </div>
-      </div>
-      <div class="profile-layout">
-        <div class="profile-panel">
-          <h3>Настрой свой образ</h3>
-          <label for="profile-avatar-file" class="avatar-upload">🖼 Загрузить свою аватарку</label>
-          <input id="profile-avatar-file" type="file" accept="image/png,image/jpeg,image/webp" hidden>
-          <div class="avatar-maker">
-            <h4>Конструктор аватара</h4>
-            <label for="avatar-emoji">Персонаж</label>
-            <select id="avatar-emoji"><option>🧑</option><option>⛏️</option><option>🐲</option><option>🧟</option><option>🧙</option><option>🐺</option><option>🦊</option><option>👾</option><option>💎</option><option>🐸</option><option>🔥</option><option>⚡</option></select>
-            <div class="avatar-maker-colors"><label>Фон <input id="avatar-bg" type="color" value="#245b3b"></label><label>Акцент <input id="avatar-accent" type="color" value="#8cffb1"></label></div>
-            <div id="avatar-maker-preview" class="avatar-maker-preview">🧑</div>
-            <button id="create-avatar" class="profile-secondary" type="button">✨ Создать аватар</button>
-            <button id="download-avatar" class="profile-secondary" type="button">↓ Скачать аватар PNG</button>
-          </div>
-          <p class="profile-hint">Или выбери готовый пиксельный аватар:</p>
-          <div id="avatar-presets" class="avatar-presets"></div>
-          <button id="avatar-reset" class="profile-secondary" type="button">Вернуть стандартную</button>
-          <label class="profile-bio-label" for="profile-bio">О себе</label>
-          <textarea id="profile-bio" maxlength="120" placeholder="Напиши пару слов о себе..."></textarea>
-          <button id="save-profile-bio" class="profile-secondary" type="button">Сохранить описание</button>
-          <p id="avatar-status" class="profile-hint" role="status">Аватар и описание сохраняются на этом компьютере.</p>
-        </div>
-        <div class="profile-panel">
-          <h3>Обо мне</h3>
-          <label class="profile-hint" for="profile-status-input">Статус игрока</label>
-          <input id="profile-status-input" maxlength="40" placeholder="Например: Строю свой мир..." />
-          <label class="profile-hint" for="profile-bio-input">Описание профиля</label>
-          <textarea id="profile-bio-input" maxlength="180" rows="3" placeholder="Расскажи немного о себе..."></textarea>
-          <button id="profile-save-info" class="profile-secondary" type="button">Сохранить профиль</button>
-          <button id="profile-copy-info" class="profile-secondary" type="button">Скопировать карточку</button>
-          <p id="profile-info-status" class="profile-hint" role="status">Информация хранится на этом компьютере.</p>
-        </div>
-        <div class="profile-panel">
-          <h3>Статистика</h3>
-          <div class="profile-stats">
-            <article><strong id="stat-launches">0</strong><span>Запусков игры</span></article>
-            <article><strong id="stat-skins">0</strong><span>Скинов экспортировано</span></article>
-            <article><strong id="stat-servers">0</strong><span>Серверов сохранено</span></article>
-          </div>
-          <p class="profile-hint">Статистика считается на этом устройстве. Вход в Microsoft и облачная синхронизация не требуются.</p>
-        </div>
-      </div>
-      <div class="profile-panel achievements-panel">
-        <div class="achievement-heading"><div><p class="eyebrow">MILESTONES</p><h3>Достижения</h3></div><span id="achievement-progress">0 / 5</span></div>
-        <div id="achievement-list" class="achievement-list"></div>
-      </div>
     </section>
 
     <!-- РЕДАКТОР СКИНОВ -->
