@@ -18,7 +18,7 @@
       <button class="nav-item active" data-page="home">🏠 Главная</button>
       <button class="nav-item" data-page="versions">📦 Версии</button>
       <button class="nav-item" data-page="servers">🌐 Серверы</button>
-      <button class="nav-item" data-page="skins">🎨 Редактор скинов</button>
+      <button class="nav-item" data-page="skins">🎨 Редактор скинов</button>\n      <button class="nav-item" data-page="backups">🛡️ Копии миров</button>
       <button class="nav-item" data-page="settings">⚙ Настройки</button>
     </nav>
 
@@ -184,6 +184,35 @@
       </div>
     </section>
 
+
+    <!-- РЕЗЕРВНЫЕ КОПИИ МИРОВ -->
+    <section id="backups" class="page">
+      <div class="backup-hero">
+        <div>
+          <p class="eyebrow">WORLD PROTECTION</p>
+          <h2>Твои миры под защитой</h2>
+          <p>Создавай резервные копии миров Minecraft и восстанавливай их в пару кликов.</p>
+        </div>
+        <div class="backup-hero-icon">🛡️</div>
+      </div>
+      <div class="backup-layout">
+        <div class="backup-panel">
+          <h3>Создать копию</h3>
+          <p>Выбери мир из папки saves. Копируется только выбранный мир.</p>
+          <label for="backup-world-select">Мир Minecraft</label>
+          <select id="backup-world-select"><option value="">Загрузка миров…</option></select>
+          <button id="create-world-backup" type="button">＋ Создать резервную копию</button>
+          <p id="backup-status" role="status">Готов к работе</p>
+          <button id="refresh-backups" class="backup-secondary" type="button">↻ Обновить список</button>
+        </div>
+        <div class="backup-panel">
+          <div class="backup-list-heading"><h3>История копий</h3><span id="backup-count">0 копий</span></div>
+          <div id="world-backup-list" class="world-backup-list"><p>Загрузка…</p></div>
+        </div>
+      </div>
+      <p class="backup-note">Важно: перед восстановлением закрой Minecraft. Лаунчер автоматически сохранит текущую версию мира отдельной копией.</p>
+    </section>
+
     <!-- НАСТРОЙКИ -->
 
     <section id="settings" class="page">
@@ -288,7 +317,7 @@
   </main>
 
   <script src="renderer.js"></script>
-  <script src="skin-editor.js"></script>
+  <script src="skin-editor.js"></script>\n  <script src="world-backups.js"></script>
 
 
   <svg class="liquid-filter-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
