@@ -222,33 +222,54 @@ function renderVersionOptions(filter = '') {
   }
 }
 
-async function loadVersions() {
+let versionsLoading = false;
+
+async function loadVersions(forceRefresh = false) {
   const status = document.getElementById('versions-status');
+  const refreshButton = document.getElementById('refresh-versions');
+  if (versionsLoading) return;
+
+  versionsLoading = true;
+  if (refreshButton) {
+    refreshButton.disabled = true;
+    refreshButton.textContent = '↻ Загружаем...';
+  }
+
+  status.textContent = forceRefresh
+    ? 'Обновляем список версий Mojang...'
+    : 'Загружаем список версий...';
 
   try {
-    status.textContent = 'Загружаем список Mojang...';
+    const loadedVersions = await window.launcher.getVersions(forceRefresh);
+    if (!Array.isArray(loadedVersions) || !loadedVersions.length) {
+      throw new Error('Список версий пуст. Попробуй обновить ещё раз.');
+    }
 
-    allVersions = await window.launcher.getVersions();
-
+    allVersions = loadedVersions;
     renderVersionOptions();
 
-    const latestRelease = allVersions.find(
-      item => item.type === 'release'
-    );
-
-    const latestSnapshot = allVersions.find(
-      item => item.type === 'snapshot'
-    );
+    const latestRelease = allVersions.find(item => item.type === 'release');
+    const latestSnapshot = allVersions.find(item => item.type === 'snapshot');
 
     status.textContent =
-      'Последний релиз: ' + (latestRelease?.id || '—') +
-      ' | Последний снапшот: ' + (latestSnapshot?.id || '—');
-
+      'Загружено ' + allVersions.length + ' версий · Последний релиз: ' +
+      (latestRelease?.id || '—') + ' · Снапшот: ' + (latestSnapshot?.id || '—');
   } catch (error) {
-    status.textContent =
-      'Ошибка загрузки версий: ' + error.message;
+    status.textContent = allVersions.length
+      ? 'Не удалось обновить список. Используется ранее загруженный список. ' + error.message
+      : 'Ошибка загрузки: ' + error.message + ' Нажми «Обновить список».';
+  } finally {
+    versionsLoading = false;
+    if (refreshButton) {
+      refreshButton.disabled = false;
+      refreshButton.textContent = '↻ Обновить список';
+    }
   }
 }
+
+document.getElementById('refresh-versions')?.addEventListener('click', () => {
+  loadVersions(true);
+});
 
 versionSearch.addEventListener('input', () => {
   renderVersionOptions(versionSearch.value);
@@ -397,22 +418,28 @@ window.launcher.onProgress(progress => {
 
 const serverArea = document.querySelector('.server-placeholder');
 
+const serverForm = document.createElement('div');
+serverForm.className = 'server-form';
+
 const serverName = document.createElement('input');
 const serverIP = document.createElement('input');
 const addButton = document.createElement('button');
 const serverList = document.createElement('div');
 
+serverName.className = 'server-input';
+serverIP.className = 'server-input';
 serverName.placeholder = 'Название сервера';
 serverIP.placeholder = 'IP сервера';
+serverName.setAttribute('aria-label', 'Название сервера');
+serverIP.setAttribute('aria-label', 'IP или адрес сервера');
 
-addButton.textContent = '+ Добавить сервер';
+addButton.type = 'button';
+addButton.className = 'server-add-button';
+addButton.innerHTML = '<span aria-hidden="true">＋</span> Добавить сервер';
+serverList.className = 'server-list';
 
-serverArea.append(
-  serverName,
-  serverIP,
-  addButton,
-  serverList
-);
+serverForm.append(serverName, serverIP, addButton);
+serverArea.append(serverForm, serverList);
 
 let servers = [];
 
@@ -453,6 +480,7 @@ function renderServers() {
 
     const copy = document.createElement('button');
     copy.textContent = 'Копировать IP';
+    copy.className = 'server-action server-copy-button';
 
     copy.addEventListener('click', async () => {
       try {
@@ -466,6 +494,7 @@ function renderServers() {
 
     const remove = document.createElement('button');
     remove.textContent = 'Удалить';
+    remove.className = 'server-action server-remove-button';
 
     remove.addEventListener('click', () => {
       servers.splice(index, 1);
