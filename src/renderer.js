@@ -38,6 +38,27 @@ document.querySelectorAll('[data-go]').forEach(button => {
   });
 });
 
+// Quick-copy address for the launcher's community server.
+const copyServerButton = document.getElementById('copy-launcher-server');
+if (copyServerButton) {
+  copyServerButton.addEventListener('click', async () => {
+    const address = document.getElementById('launcher-server-ip')?.textContent?.trim();
+    const status = document.getElementById('launcher-server-copy-status');
+    if (!address) return;
+    try {
+      await navigator.clipboard.writeText(address);
+      status.textContent = 'IP скопирован!';
+      copyServerButton.textContent = '✓ Скопировано';
+    } catch {
+      status.textContent = 'Не удалось скопировать — выдели IP вручную.';
+    }
+    window.setTimeout(() => {
+      status.textContent = 'Minecraft Java Edition';
+      copyServerButton.textContent = '⧉ Скопировать IP';
+    }, 2200);
+  });
+}
+
 const nickname = document.getElementById('nickname');
 const ram = document.getElementById('ram');
 const version = document.getElementById('home-version');
