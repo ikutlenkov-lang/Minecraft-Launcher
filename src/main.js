@@ -11,7 +11,7 @@ function createWindow() {
     height: 800,
     minWidth: 900,
     minHeight: 600,
-    title: 'Minecraft Launcher',
+    title: 'Block Launcher',
     backgroundColor: '#10131c',
     autoHideMenuBar: true,
     webPreferences: {
