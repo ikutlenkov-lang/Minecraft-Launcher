@@ -2,7 +2,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('launcher', {
   launch: options => ipcRenderer.invoke('minecraft:launch', options),
-  getVersions: () => ipcRenderer.invoke('minecraft:get-versions'),
+  getVersions: (forceRefresh = false) => ipcRenderer.invoke('minecraft:get-versions', forceRefresh),
   getDefaultDirectory: () => ipcRenderer.invoke('minecraft:get-default-directory'),
   selectDirectory: () => ipcRenderer.invoke('minecraft:select-directory'),
   listWorlds: root => ipcRenderer.invoke('world-backups:list-worlds', root),
