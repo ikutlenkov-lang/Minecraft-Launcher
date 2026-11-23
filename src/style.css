@@ -816,3 +816,19 @@ body::before,body::after{z-index:0;pointer-events:none}
 .world-backup-item button:disabled{opacity:.55;cursor:wait}
 .backup-note{margin-top:14px;color:var(--muted);font-size:11px;line-height:1.6}
 @media(max-width:760px){.backup-layout{grid-template-columns:1fr}.backup-hero{padding:20px}.backup-hero-icon{font-size:42px}}
+
+
+/* PINNED COMMUNITY SERVER CARD */
+.launcher-server-card{
+  margin:18px 12px 12px;padding:13px 12px 11px;border:1px solid rgba(105,235,151,.25);
+  border-radius:14px;background:linear-gradient(145deg,rgba(35,82,53,.34),rgba(12,24,32,.48));
+  box-shadow:inset 0 1px rgba(255,255,255,.05),0 8px 22px rgba(0,0,0,.12);
+}
+.launcher-server-top{display:flex;align-items:center;gap:7px;font-size:9px;font-weight:800;letter-spacing:1.25px;color:#a9d9b8}
+.server-live-dot{width:7px;height:7px;border-radius:50%;background:#72f59a;box-shadow:0 0 10px #72f59a88}
+.launcher-server-card>strong{display:block;margin:9px 0 5px;font-size:15px;color:#f1fff4}
+.launcher-server-card code{display:block;overflow-wrap:anywhere;color:#b8d9c3;font-size:10px;line-height:1.4}
+.launcher-server-card button{width:100%;margin-top:10px;padding:8px 9px;border:1px solid rgba(116,240,157,.23);border-radius:9px;background:rgba(85,205,123,.15);color:#d8ffe2;font:inherit;font-size:11px;font-weight:750;cursor:pointer;transition:background .2s,transform .2s}
+.launcher-server-card button:hover{background:rgba(85,205,123,.27);transform:translateY(-1px)}
+.launcher-server-card>small{display:block;min-height:13px;margin-top:7px;color:#91a99a;font-size:9px}
+@media(max-width:600px){.launcher-server-card{margin:8px 10px;padding:10px}.launcher-server-card>strong{font-size:13px}}
