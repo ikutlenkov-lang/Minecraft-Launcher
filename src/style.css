@@ -794,3 +794,25 @@ body::before,body::after{z-index:0;pointer-events:none}
   }
   .main{background:transparent}
 }
+
+
+/* WORLD BACKUPS */
+.backup-hero{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:28px 30px;margin-bottom:18px;border:1px solid #31533e;border-radius:18px;background:linear-gradient(120deg,#14291d,#172331)}
+.backup-hero h2{font-size:clamp(25px,3vw,36px);margin:9px 0}.backup-hero p:not(.eyebrow){max-width:620px;color:var(--muted);line-height:1.6}.backup-hero-icon{font-size:64px;filter:drop-shadow(0 8px 18px #0008)}
+.backup-layout{display:grid;grid-template-columns:minmax(240px,.8fr) minmax(300px,1.2fr);gap:16px;align-items:start}
+.backup-panel{min-width:0;padding:20px;background:var(--panel);border:1px solid #273342;border-radius:16px}
+.backup-panel h3{margin-bottom:9px}.backup-panel>p{font-size:12px;line-height:1.5;color:var(--muted);margin-bottom:15px}
+.backup-panel label{display:block;color:var(--muted);font-size:12px;margin-bottom:7px}
+.backup-panel select{width:100%}
+.backup-panel button{display:block;width:100%;padding:12px 14px;margin-top:12px;border-radius:9px;background:var(--green);color:#07130b;font-weight:800}
+.backup-panel button.backup-secondary{background:#263342;color:#eaf2ec}
+#backup-status{min-height:34px;margin-top:12px;color:var(--green);font-size:12px;line-height:1.5;overflow-wrap:anywhere}
+.backup-list-heading{display:flex;justify-content:space-between;align-items:center;gap:10px}.backup-list-heading span{font-size:11px;color:var(--muted)}
+.world-backup-list{display:grid;gap:10px;margin-top:14px}
+.world-backup-item{padding:13px;border:1px solid #34443c;border-radius:11px;background:#111b25}
+.world-backup-item strong{display:block;overflow-wrap:anywhere}.world-backup-item small{display:block;margin-top:5px;color:var(--muted);font-size:11px}
+.world-backup-item button{width:auto;display:inline-block;margin:10px 7px 0 0;padding:8px 11px;font-size:11px}
+.world-backup-item button.restore-backup{background:#1d422d;color:var(--green)}
+.world-backup-item button:disabled{opacity:.55;cursor:wait}
+.backup-note{margin-top:14px;color:var(--muted);font-size:11px;line-height:1.6}
+@media(max-width:760px){.backup-layout{grid-template-columns:1fr}.backup-hero{padding:20px}.backup-hero-icon{font-size:42px}}
