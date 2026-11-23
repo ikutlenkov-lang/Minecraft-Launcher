@@ -7,6 +7,7 @@ const titles = {
   versions: 'Версии',
   servers: 'Серверы',
   skins: 'Редактор скинов',
+  backups: 'Копии миров',
   utilities: 'Утилиты',
   settings: 'Настройки'
 };
@@ -62,22 +63,60 @@ if (copyServerButton) {
 
 
 const utilityCommandButton = document.getElementById('copy-utility-command');
+const randomizeUtilityButton = document.getElementById('randomize-utility-command');
+const utilityCommandElement = document.getElementById('utility-command');
+const utilityCommandTitle = document.getElementById('utility-command-title');
+const utilityCommandDescription = document.getElementById('utility-command-description');
+const utilityCommandStatus = document.getElementById('utility-command-status');
+
+const utilityCommands = [
+  { title: 'Установить день', command: '/time set day', description: 'Переключает время на дневное.', note: 'Нужны читы или права оператора.' },
+  { title: 'Очистить погоду', command: '/weather clear', description: 'Останавливает дождь и грозу.', note: 'Нужны читы или права оператора.' },
+  { title: 'Сохранить инвентарь', command: '/gamerule keepInventory true', description: 'Предметы остаются у игрока после смерти.', note: 'Нужны читы или права оператора.' },
+  { title: 'Найти деревню', command: '/locate structure minecraft:village', description: 'Показывает координаты ближайшей деревни.', note: 'Нужны читы или права оператора.' },
+  { title: 'Найти биом', command: '/locate biome minecraft:cherry_grove', description: 'Ищет ближайшую вишнёвую рощу.', note: 'Нужны читы или права оператора.' },
+  { title: 'Получить факелы', command: '/give @s minecraft:torch 64', description: 'Выдаёт 64 факела.', note: 'Нужны читы или права оператора.' },
+  { title: 'Ночной режим', command: '/time set night', description: 'Переключает время на ночь.', note: 'Нужны читы или права оператора.' },
+  { title: 'Установить точку возрождения', command: '/spawnpoint @s', description: 'Делает текущую позицию точкой возрождения.', note: 'Нужны читы или права оператора.' },
+  { title: 'Сделать погоду ясной', command: '/weather clear 1000000', description: 'Устанавливает ясную погоду на длительное время.', note: 'Нужны читы или права оператора.' },
+  { title: 'Получить ночное зрение', command: '/effect give @s minecraft:night_vision 60 0', description: 'Даёт ночное зрение на 60 секунд.', note: 'Нужны читы или права оператора.' },
+  { title: 'Переключить на выживание', command: '/gamemode survival @s', description: 'Включает режим выживания для себя.', note: 'Нужны читы или права оператора.' },
+  { title: 'Переключить на творчество', command: '/gamemode creative @s', description: 'Включает творческий режим для себя.', note: 'Нужны читы или права оператора.' }
+];
+
+let lastUtilityCommandIndex = 0;
+
+function showRandomUtilityCommand() {
+  if (!utilityCommandElement || !utilityCommands.length) return;
+  let nextIndex = Math.floor(Math.random() * utilityCommands.length);
+  if (utilityCommands.length > 1) {
+    while (nextIndex === lastUtilityCommandIndex) {
+      nextIndex = Math.floor(Math.random() * utilityCommands.length);
+    }
+  }
+  lastUtilityCommandIndex = nextIndex;
+  const item = utilityCommands[nextIndex];
+  utilityCommandTitle.textContent = item.title;
+  utilityCommandElement.textContent = item.command;
+  utilityCommandDescription.textContent = item.description;
+  utilityCommandStatus.textContent = item.note;
+  if (utilityCommandButton) utilityCommandButton.textContent = '⧉ Копировать';
+}
+
+if (randomizeUtilityButton) {
+  randomizeUtilityButton.addEventListener('click', showRandomUtilityCommand);
+}
 if (utilityCommandButton) {
   utilityCommandButton.addEventListener('click', async () => {
-    const command = document.getElementById('utility-command')?.textContent?.trim();
-    const status = document.getElementById('utility-command-status');
+    const command = utilityCommandElement?.textContent?.trim();
     if (!command) return;
     try {
       await navigator.clipboard.writeText(command);
-      status.textContent = 'Команда скопирована!';
+      utilityCommandStatus.textContent = '✓ Команда скопирована!';
       utilityCommandButton.textContent = '✓ Скопировано';
     } catch {
-      status.textContent = 'Не удалось скопировать — выдели команду вручную.';
+      utilityCommandStatus.textContent = 'Не удалось скопировать — выдели команду вручную.';
     }
-    window.setTimeout(() => {
-      status.textContent = 'Команда Minecraft';
-      utilityCommandButton.textContent = '⧉ Скопировать команду';
-    }, 2200);
   });
 }
 
@@ -632,14 +671,14 @@ init();
 
 
 
-// LIQUID MORPH — переключение символов с эффектом жидкого стекла.
+// LIQUID MORPH — надёжная анимация смены значка и переходов между вкладками.
 (() => {
   const toggle = document.getElementById('liquid-morph-toggle');
   const stage = document.getElementById('liquid-icon-stage');
   const state = document.getElementById('liquid-toggle-state');
   if (!toggle || !stage) return;
 
-  const symbols = ['⛏️','🟩','💎','🧱','🌳','🔥','🌀','🪨','🟪','⚒️'];
+  const symbols = ['⛏️', '🟩', '💎', '🧱', '🌳', '🔥', '🌀', '🪨', '🟪', '⚒️'];
   let index = 0;
   let enabled = localStorage.getItem('blockLiquidMorph') !== 'off';
   let busy = false;
@@ -651,41 +690,43 @@ init();
     document.body.classList.toggle('liquid-disabled', !enabled);
   }
 
-  function morph(nextSymbol) {
+  function morph() {
     if (!enabled || busy) return;
-    busy = true;
     const oldIcon = stage.querySelector('.liquid-icon-current');
+    if (!oldIcon) return;
+
+    busy = true;
+    index = (index + 1) % symbols.length;
+
     const nextIcon = document.createElement('span');
     nextIcon.className = 'liquid-icon-next';
-    nextIcon.textContent = nextSymbol;
-    if (oldIcon) oldIcon.classList.add('liquid-out');
+    nextIcon.setAttribute('aria-hidden', 'true');
+    nextIcon.textContent = symbols[index];
+
+    oldIcon.classList.add('liquid-out');
+    oldIcon.removeAttribute('id');
     stage.appendChild(nextIcon);
+
     window.setTimeout(() => {
-      if (oldIcon) oldIcon.remove();
+      oldIcon.remove();
       nextIcon.className = 'liquid-icon-current';
       nextIcon.id = 'liquid-icon-current';
       busy = false;
-    }, 840);
-  }
-
-  function next() {
-    index = (index + 1) % symbols.length;
-    morph(symbols[index]);
+    }, 900);
   }
 
   toggle.addEventListener('click', () => {
     enabled = !enabled;
     localStorage.setItem('blockLiquidMorph', enabled ? 'on' : 'off');
     applyState();
-    if (enabled) next();
+    if (enabled) morph();
   });
 
-  // Нажатие на логотип или смена раздела тоже запускает превращение.
-  document.querySelector('.logo')?.addEventListener('click', next);
+  document.querySelector('.logo')?.addEventListener('click', morph);
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
       if (!enabled) return;
-      next();
+      morph();
       document.body.classList.remove('liquid-transition');
       void document.body.offsetWidth;
       document.body.classList.add('liquid-transition');
@@ -693,9 +734,8 @@ init();
     });
   });
 
-  // Небольшая самостоятельная трансформация раз в несколько секунд.
-  let autoMorph = window.setInterval(() => {
-    if (enabled && !document.hidden) next();
+  window.setInterval(() => {
+    if (enabled && !document.hidden) morph();
   }, 5200);
 
   applyState();
