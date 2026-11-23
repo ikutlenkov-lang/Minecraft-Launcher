@@ -144,9 +144,12 @@
         placeholder="Поиск версии: 26.3, 26.4-snapshot..."
       >
 
-      <p id="versions-status" class="versions-status">
-        Загрузка списка версий...
-      </p>
+      <div class="versions-toolbar">
+        <p id="versions-status" class="versions-status" role="status">
+          Загрузка списка версий...
+        </p>
+        <button id="refresh-versions" class="refresh-versions-button" type="button">↻ Обновить список</button>
+      </div>
 
       <div id="version-list" class="version-list"></div>
 
