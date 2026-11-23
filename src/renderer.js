@@ -6,7 +6,6 @@ const titles = {
   home: 'Главная',
   versions: 'Версии',
   servers: 'Серверы',
-  profile: 'Профиль игрока',
   skins: 'Редактор скинов',
   settings: 'Настройки'
 };
@@ -296,11 +295,6 @@ document.getElementById('play-button').addEventListener(
       }
 
       status.textContent = 'Minecraft запускается!';
-      const profileStats = JSON.parse(localStorage.getItem('blockProfileStats') || '{}');
-      profileStats.launches = (Number(profileStats.launches) || 0) + 1;
-      localStorage.setItem('blockProfileStats', JSON.stringify(profileStats));
-      if (typeof renderPlayerProfile === 'function') renderPlayerProfile();
-
     } catch (error) {
       status.textContent = 'Ошибка: ' + error.message;
 
@@ -593,182 +587,6 @@ async function init() {
 
 init();
 
-
-// ПРОФИЛЬ ИГРОКА — локальные настройки, аватар и достижения
-const AVATAR_PRESETS = [
-  {id:'creeper',emoji:'🟩',label:'Крипер',bg:'linear-gradient(145deg,#b4f36b,#287a42)'},
-  {id:'ender',emoji:'👾',label:'Эндер',bg:'linear-gradient(145deg,#b58aff,#38245f)'},
-  {id:'diamond',emoji:'💎',label:'Алмаз',bg:'linear-gradient(145deg,#8ef5ff,#167b9c)'},
-  {id:'pig',emoji:'🐷',label:'Свинка',bg:'linear-gradient(145deg,#ffb0c7,#a84f78)'},
-  {id:'bee',emoji:'🐝',label:'Пчела',bg:'linear-gradient(145deg,#ffe66b,#a86b19)'},
-  {id:'fox',emoji:'🦊',label:'Лиса',bg:'linear-gradient(145deg,#ffb16b,#a44228)'},
-  {id:'wolf',emoji:'🐺',label:'Волк',bg:'linear-gradient(145deg,#c7d7e8,#52647c)'},
-  {id:'dragon',emoji:'🐉',label:'Дракон',bg:'linear-gradient(145deg,#7af0a0,#145d49)'}
-];
-const defaultAvatar = 'preset:creeper';
-const profileStatusInput = document.getElementById('profile-status-input');
-const profileBioInput = document.getElementById('profile-bio-input');
-const profileInfoStatus = document.getElementById('profile-info-status');
-if (profileStatusInput) profileStatusInput.value = localStorage.getItem('blockPlayerStatus') || 'Исследую миры Minecraft';
-if (profileBioInput) profileBioInput.value = localStorage.getItem('blockPlayerBio') || '';
-function getProfileStats(){
-  try { const value=JSON.parse(localStorage.getItem('blockProfileStats')||'{}'); return value&&typeof value==='object'?value:{}; }
-  catch { return {}; }
-}
-function getSkinExports(){ return Number(localStorage.getItem('blockSkinExports')||0)||0; }
-function currentAvatar(){ return localStorage.getItem('blockPlayerAvatar')||defaultAvatar; }
-function makeAvatarData(preset){
-  const svg='<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256"><defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#ffffff" stop-opacity=".24"/><stop offset="1" stop-color="#000000" stop-opacity=".2"/></linearGradient></defs><rect width="256" height="256" rx="48" fill="'+preset.bg+'"/><rect width="256" height="256" rx="48" fill="url(#g)"/><text x="128" y="169" font-size="142" text-anchor="middle">'+preset.emoji+'</text></svg>';
-  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
-}
-function renderAvatar(){
-  const avatar=currentAvatar();
-  const image=document.getElementById('profile-avatar-large');
-  if(!image) return;
-  if(avatar.startsWith('data:image/')) image.src=avatar;
-  else {
-    const preset=AVATAR_PRESETS.find(item=>'preset:'+item.id===avatar)||AVATAR_PRESETS[0];
-    image.src=makeAvatarData(preset);
-  }
-}
-function renderPlayerProfile(){
-  const name=(nickname.value||'').trim()||'Игрок';
-  const stats=getProfileStats();
-  const launches=Number(stats.launches)||0;
-  const skins=getSkinExports();
-  const serverCount=Array.isArray(servers)?servers.length:0;
-  document.getElementById('profile-name').textContent=name;
-  document.getElementById('profile-heading').textContent=name;
-  document.getElementById('stat-launches').textContent=launches;
-  document.getElementById('stat-skins').textContent=skins;
-  document.getElementById('stat-servers').textContent=serverCount;
-  document.getElementById('profile-rank').textContent=launches>=25?'МАСТЕР':launches>=5?'ИССЛЕДОВАТЕЛЬ':'НОВИЧОК';
-  const statusTag = document.getElementById('profile-status-tag');
-  if (statusTag) statusTag.textContent = '🟢 ' + (localStorage.getItem('blockPlayerStatus') || 'Исследую миры Minecraft');
-  const achievements=[
-    {id:'profile',title:'Первый образ',desc:'Настрой ник или аватар профиля',ok:!!localStorage.getItem('nickname')||currentAvatar()!==defaultAvatar,icon:'🧑‍🎨'},
-    {id:'launch1',title:'Первый запуск',desc:'Запусти Minecraft через лаунчер',ok:launches>=1,icon:'⛏️'},
-    {id:'launch5',title:'Пять приключений',desc:'Запусти игру 5 раз',ok:launches>=5,icon:'⭐'},
-    {id:'skin',title:'Пиксельный художник',desc:'Экспортируй свой скин в PNG',ok:skins>=1,icon:'🎨'},
-    {id:'servers',title:'На связи',desc:'Сохрани первый сервер',ok:serverCount>=1,icon:'🌐'}
-  ];
-  const list=document.getElementById('achievement-list');
-  list.replaceChildren();
-  achievements.forEach(item=>{
-    const card=document.createElement('article');
-    card.className='achievement'+(item.ok?' unlocked':'');
-    const icon=document.createElement('span');icon.className='achievement-icon';icon.textContent=item.icon;
-    const copy=document.createElement('div');const title=document.createElement('strong');title.textContent=item.title;
-    const desc=document.createElement('small');desc.textContent=item.desc;copy.append(title,desc);
-    const state=document.createElement('span');state.className='achievement-state';state.textContent=item.ok?'✓':'🔒';
-    card.append(icon,copy,state);list.appendChild(card);
-  });
-  document.getElementById('achievement-progress').textContent=achievements.filter(item=>item.ok).length+' / '+achievements.length;
-  renderAvatar();
-}
-function renderAvatarPresets(){
-  const container=document.getElementById('avatar-presets');
-  AVATAR_PRESETS.forEach(preset=>{
-    const button=document.createElement('button');button.type='button';button.className='avatar-preset';button.title=preset.label;button.setAttribute('aria-label','Выбрать аватар: '+preset.label);
-    const icon=document.createElement('span');icon.textContent=preset.emoji;icon.style.background=preset.bg;button.appendChild(icon);
-    button.addEventListener('click',()=>{localStorage.setItem('blockPlayerAvatar','preset:'+preset.id);document.getElementById('avatar-status').textContent='Аватар «'+preset.label+'» выбран.';renderPlayerProfile();});
-    container.appendChild(button);
-  });
-}
-
-renderAvatarPresets();
-
-// Конструктор собственного аватара и описание профиля.
-const avatarEmoji=document.getElementById('avatar-emoji');
-const avatarBg=document.getElementById('avatar-bg');
-const avatarAccent=document.getElementById('avatar-accent');
-const avatarPreview=document.getElementById('avatar-maker-preview');
-function updateAvatarMakerPreview(){
-  if(!avatarPreview)return;
-  avatarPreview.textContent=avatarEmoji.value;
-  avatarPreview.style.background='linear-gradient(145deg,'+avatarAccent.value+','+avatarBg.value+')';
-}
-[avatarEmoji,avatarBg,avatarAccent].forEach(control=>control.addEventListener('input',updateAvatarMakerPreview));
-updateAvatarMakerPreview();
-function createCustomAvatar(){
-  const emoji=avatarEmoji.value;
-  const bg=avatarBg.value;
-  const accent=avatarAccent.value;
-  const svg='<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="'+accent+'"/><stop offset="1" stop-color="'+bg+'"/></linearGradient></defs><rect width="512" height="512" rx="110" fill="url(#g)"/><path d="M0 390 Q130 300 260 410 T512 370 V512 H0Z" fill="#07130d" opacity=".22"/><text x="256" y="340" font-size="270" text-anchor="middle">'+emoji+'</text><rect x="12" y="12" width="488" height="488" rx="100" fill="none" stroke="#ffffff" stroke-opacity=".45" stroke-width="12"/></svg>';
-  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
-}
-document.getElementById('create-avatar').addEventListener('click',()=>{
-  localStorage.setItem('blockPlayerAvatar',createCustomAvatar());
-  document.getElementById('avatar-status').textContent='✨ Твой аватар создан и установлен!';
-  renderPlayerProfile();
-});
-document.getElementById('download-avatar').addEventListener('click',()=>{
-  const source=createCustomAvatar();
-  const image=new Image();
-  image.onload=()=>{
-    const canvas=document.createElement('canvas');canvas.width=512;canvas.height=512;
-    canvas.getContext('2d').drawImage(image,0,0,512,512);
-    const link=document.createElement('a');link.download='block-player-avatar.png';link.href=canvas.toDataURL('image/png');link.click();
-    document.getElementById('avatar-status').textContent='PNG-аватар скачан.';
-  };
-  image.src=source;
-});
-const bioInput=document.getElementById('profile-bio');
-bioInput.value=localStorage.getItem('blockPlayerBio')||'';
-document.getElementById('save-profile-bio').addEventListener('click',()=>{
-  localStorage.setItem('blockPlayerBio',bioInput.value.trim());
-  document.getElementById('avatar-status').textContent='Описание профиля сохранено.';
-});
-
-document.getElementById('profile-avatar-file').addEventListener('change',()=>{
-  const file=document.getElementById('profile-avatar-file').files?.[0];
-  if(!file)return;
-  if(!/^image\/(png|jpeg|webp)$/.test(file.type)||file.size>2*1024*1024){
-    document.getElementById('avatar-status').textContent='Нужна картинка PNG, JPG или WEBP размером до 2 МБ.';return;
-  }
-  const reader=new FileReader();
-  reader.onload=()=>{
-    if(typeof reader.result==='string'){
-      try{localStorage.setItem('blockPlayerAvatar',reader.result);document.getElementById('avatar-status').textContent='Твоя аватарка сохранена на этом компьютере.';renderPlayerProfile();}
-      catch{document.getElementById('avatar-status').textContent='Картинка слишком большая для локального хранилища.';}
-    }
-  };
-  reader.readAsDataURL(file);
-});
-document.getElementById('avatar-reset').addEventListener('click',()=>{
-  localStorage.setItem('blockPlayerAvatar',defaultAvatar);
-  document.getElementById('avatar-status').textContent='Стандартный аватар восстановлен.';
-  renderPlayerProfile();
-});
-nickname.addEventListener('input',renderPlayerProfile);
-const originalSaveSettings=saveSettings;
-saveSettings=function(){originalSaveSettings();renderPlayerProfile();};
-const originalRenderServers=renderServers;
-renderServers=function(){originalRenderServers();renderPlayerProfile();};
-renderPlayerProfile();
-
-
-// Редактирование информации профиля и копирование карточки
-document.getElementById('profile-save-info')?.addEventListener('click', () => {
-  const status = (profileStatusInput?.value || '').trim().slice(0, 40);
-  const bio = (profileBioInput?.value || '').trim().slice(0, 180);
-  localStorage.setItem('blockPlayerStatus', status || 'Исследую миры Minecraft');
-  localStorage.setItem('blockPlayerBio', bio);
-  if (profileInfoStatus) profileInfoStatus.textContent = '✓ Информация профиля сохранена!';
-  renderPlayerProfile();
-});
-document.getElementById('profile-copy-info')?.addEventListener('click', async () => {
-  const name = (nickname.value || '').trim() || 'Игрок';
-  const status = localStorage.getItem('blockPlayerStatus') || 'Исследую миры Minecraft';
-  const bio = localStorage.getItem('blockPlayerBio') || 'Пока ничего не рассказал о себе.';
-  const text = 'BLOCK LAUNCHER — ПРОФИЛЬ ИГРОКА\\nНик: ' + name + '\\nСтатус: ' + status + '\\nО себе: ' + bio + '\\nЗапусков Minecraft: ' + (Number(getProfileStats().launches) || 0) + '\\nСкинов создано: ' + getSkinExports();
-  try {
-    await navigator.clipboard.writeText(text);
-    if (profileInfoStatus) profileInfoStatus.textContent = '✓ Карточка профиля скопирована!';
-  } catch {
-    if (profileInfoStatus) profileInfoStatus.textContent = 'Не удалось скопировать. Проверь разрешение буфера обмена.';
-  }
-});
 
 
 // LIQUID MORPH — переключение символов с эффектом жидкого стекла.
