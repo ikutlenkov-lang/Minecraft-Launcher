@@ -51,7 +51,7 @@ ipcMain.handle('minecraft:get-versions', async () => minecraft.getVersions());
 // WORLD BACKUPS — копируются только выбранные миры из saves, а не вся .minecraft.
 function safeWorldName(name) {
   if (typeof name !== 'string' || !name.trim() || name !== path.basename(name) ||
-      name === '.' || name === '..' || /[<>:"/\\|?*]/.test(name)) {
+      name === '.' || name === '..' || /[<>:"\/\\|?*]/.test(name)) {
     throw new Error('Некорректное имя мира.');
   }
   return name;
