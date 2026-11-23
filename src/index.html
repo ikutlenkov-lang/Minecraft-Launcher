@@ -19,16 +19,9 @@
       <button class="nav-item" data-page="versions">📦 Версии</button>
       <button class="nav-item" data-page="servers">🌐 Серверы</button>
       <button class="nav-item" data-page="skins">🎨 Редактор скинов</button>\n      <button class="nav-item" data-page="backups">🛡️ Копии миров</button>
+      <button class="nav-item" data-page="utilities">🧰 Утилиты</button>
       <button class="nav-item" data-page="settings">⚙ Настройки</button>
     </nav>
-
-    <div class="launcher-server-card">
-      <div class="launcher-server-top"><span class="server-live-dot"></span><span>НАШ СЕРВЕР</span></div>
-      <strong>IvankaSMP</strong>
-      <code id="launcher-server-ip">IvankaSMP.aternos.me</code>
-      <button id="copy-launcher-server" type="button">⧉ Скопировать IP</button>
-      <small id="launcher-server-copy-status" role="status">Minecraft Java Edition</small>
-    </div>
 
     <div class="sidebar-bottom">
       <span class="status-dot"></span>
@@ -219,6 +212,50 @@
         </div>
       </div>
       <p class="backup-note">Важно: перед восстановлением закрой Minecraft. Лаунчер автоматически сохранит текущую версию мира отдельной копией.</p>
+    </section>
+
+
+    <!-- УТИЛИТЫ -->
+    <section id="utilities" class="page">
+      <div class="utilities-hero">
+        <div>
+          <p class="eyebrow">BLOCK LAUNCHER TOOLBOX</p>
+          <h2>Полезные инструменты</h2>
+          <p>Быстрый доступ к нашему серверу и справочным материалам Minecraft.</p>
+        </div>
+        <div class="utilities-hero-icon">🧰</div>
+      </div>
+
+      <div class="utilities-grid">
+        <article class="utility-card server-utility-card">
+          <div class="utility-icon">🌐</div>
+          <p class="eyebrow">НАШ СЕРВЕР</p>
+          <h3>IvankaSMP</h3>
+          <p>Адрес для подключения к серверу Minecraft Java Edition.</p>
+          <code id="launcher-server-ip">IvankaSMP.aternos.me</code>
+          <button id="copy-launcher-server" type="button">⧉ Скопировать IP</button>
+          <small id="launcher-server-copy-status" role="status">Готово к копированию</small>
+        </article>
+
+        <article class="utility-card">
+          <div class="utility-icon">📚</div>
+          <p class="eyebrow">БАЗА ЗНАНИЙ</p>
+          <h3>Minecraft Wiki</h3>
+          <p>Рецепты крафта, блоки, мобы, чары, механики и подробные руководства.</p>
+          <a class="utility-action" href="https://minecraft.wiki/" target="_blank" rel="noopener noreferrer">Открыть Minecraft Wiki ↗</a>
+          <small>Откроется официальный адрес энциклопедии сообщества.</small>
+        </article>
+
+        <article class="utility-card">
+          <div class="utility-icon">⌨️</div>
+          <p class="eyebrow">БЫСТРАЯ ПОДСКАЗКА</p>
+          <h3>Полезная команда</h3>
+          <p>Скопируй команду телепортации к случайному игроку (если она разрешена на сервере).</p>
+          <code id="utility-command">/tp @s @r</code>
+          <button id="copy-utility-command" type="button">⧉ Скопировать команду</button>
+          <small id="utility-command-status" role="status">Команда Minecraft</small>
+        </article>
+      </div>
     </section>
 
     <!-- НАСТРОЙКИ -->
