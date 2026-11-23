@@ -59,6 +59,27 @@ if (copyServerButton) {
   });
 }
 
+
+const utilityCommandButton = document.getElementById('copy-utility-command');
+if (utilityCommandButton) {
+  utilityCommandButton.addEventListener('click', async () => {
+    const command = document.getElementById('utility-command')?.textContent?.trim();
+    const status = document.getElementById('utility-command-status');
+    if (!command) return;
+    try {
+      await navigator.clipboard.writeText(command);
+      status.textContent = 'Команда скопирована!';
+      utilityCommandButton.textContent = '✓ Скопировано';
+    } catch {
+      status.textContent = 'Не удалось скопировать — выдели команду вручную.';
+    }
+    window.setTimeout(() => {
+      status.textContent = 'Команда Minecraft';
+      utilityCommandButton.textContent = '⧉ Скопировать команду';
+    }, 2200);
+  });
+}
+
 const nickname = document.getElementById('nickname');
 const ram = document.getElementById('ram');
 const version = document.getElementById('home-version');
