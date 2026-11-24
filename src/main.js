@@ -1,9 +1,52 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const path = require('path');
 const fs = require('fs/promises');
 const minecraft = require('./minecraft');
 
 let mainWindow;
+let blockMessengerWindow;
+
+// BLOCK Messenger — отдельное окно лаунчера, не внешний браузер.
+ipcMain.handle('block:open-messenger', async () => {
+  if (blockMessengerWindow && !blockMessengerWindow.isDestroyed()) {
+    if (blockMessengerWindow.isMinimized()) blockMessengerWindow.restore();
+    blockMessengerWindow.show();
+    blockMessengerWindow.focus();
+    return true;
+  }
+
+  blockMessengerWindow = new BrowserWindow({
+    width: 1180,
+    height: 820,
+    minWidth: 850,
+    minHeight: 600,
+    title: 'BLOCK — Мессенджер',
+    backgroundColor: '#0b1018',
+    autoHideMenuBar: true,
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false,
+      sandbox: true
+    }
+  });
+
+  blockMessengerWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (/^https?:\\/\\//i.test(url)) shell.openExternal(url);
+    return { action: 'deny' };
+  });
+
+  blockMessengerWindow.on('closed', () => {
+    blockMessengerWindow = null;
+  });
+
+  try {
+    await blockMessengerWindow.loadURL('https://ikutlenkov-lang.github.io/BlockLauncer/');
+    return true;
+  } catch (error) {
+    if (blockMessengerWindow && !blockMessengerWindow.isDestroyed()) blockMessengerWindow.close();
+    throw error;
+  }
+});
 
 function createWindow() {
   mainWindow = new BrowserWindow({
