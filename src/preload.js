@@ -1,6 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('launcher', {
+  openBlockMessenger: () => ipcRenderer.invoke('block:open-messenger'),
   launch: options => ipcRenderer.invoke('minecraft:launch', options),
   getVersions: (forceRefresh = false) => ipcRenderer.invoke('minecraft:get-versions', forceRefresh),
   getDefaultDirectory: () => ipcRenderer.invoke('minecraft:get-default-directory'),
