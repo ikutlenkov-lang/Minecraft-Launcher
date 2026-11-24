@@ -906,3 +906,22 @@ body::before,body::after{z-index:0;pointer-events:none}
   .versions-toolbar{align-items:stretch}
   .refresh-versions-button{width:100%}
 }
+
+
+/* SKIN STYLE PRESETS */
+.skin-presets{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  margin:0 0 18px;padding:18px 20px;border:1px solid rgba(105,235,151,.2);
+  border-radius:15px;background:linear-gradient(145deg,rgba(25,48,37,.55),rgba(13,23,32,.68));
+}
+.skin-presets strong{display:block;font-size:14px;color:#effff3}
+.skin-presets p{margin-top:5px;color:var(--muted);font-size:11px;line-height:1.5}
+.skin-preset-buttons{display:flex;gap:8px;flex-wrap:wrap}
+.skin-preset-buttons button{
+  padding:10px 13px;border:1px solid rgba(105,235,151,.22);border-radius:10px;
+  color:#dfffea;background:rgba(35,68,48,.72);font-size:12px;font-weight:750;
+  transition:transform .18s,border-color .18s,background .18s
+}
+.skin-preset-buttons button:hover{transform:translateY(-2px);border-color:#72f5a1;background:rgba(43,103,64,.82)}
+.skin-preset-buttons button:focus-visible{outline:2px solid #9bffb8;outline-offset:3px}
+@media(max-width:700px){.skin-presets{align-items:flex-start}.skin-preset-buttons{width:100%}.skin-preset-buttons button{flex:1 1 42%}}
