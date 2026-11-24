@@ -1,5 +1,24 @@
 
 const pages = document.querySelectorAll('.page');
+
+// Открыть BLOCK Messenger в отдельном окне Windows.
+const openBlockMessengerButton = document.getElementById('open-block-messenger');
+if (openBlockMessengerButton) {
+  openBlockMessengerButton.addEventListener('click', async () => {
+    const originalText = openBlockMessengerButton.textContent;
+    openBlockMessengerButton.disabled = true;
+    openBlockMessengerButton.textContent = 'Открываем BLOCK...';
+    try {
+      await window.launcher.openBlockMessenger();
+    } catch (error) {
+      alert('Не удалось открыть BLOCK: ' + (error?.message || 'проверь подключение к интернету.'));
+    } finally {
+      openBlockMessengerButton.disabled = false;
+      openBlockMessengerButton.textContent = originalText;
+    }
+  });
+}
+
 const navButtons = document.querySelectorAll('.nav-item');
 
 const titles = {
